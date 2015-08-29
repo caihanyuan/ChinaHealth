@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:chinahelth="http://schemas.android.com/apk/res-auto">
+
+    <com.chinahelth.ui.homepush.HomePushViewPager
+        android:id="@+id/homepush_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray" />
+
+    <com.chinahelth.ui.homepush.HomePushViewCircleIndicator
+        android:id="@+id/homepush_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/home_push_view_indicator_marginbottom"
+        chinahelth:radius="@dimen/home_push_view_indicator_radius" />
+</merge>

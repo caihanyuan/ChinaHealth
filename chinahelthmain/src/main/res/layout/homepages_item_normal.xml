@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Theme.ChinaHealth.HompageItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
+
+    <TextView
+            android:id="@id/homepage_item_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男子用砖头袭击警察" />
+
+        <LinearLayout
+            android:id="@id/homepage_item_extrainfo_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/homepage_item_title_text"
+            android:layout_marginTop="@dimen/home_page_normalitem_undertext_margin_top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/homepage_item_from_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学佛网" />
+
+            <TextView
+                android:id="@id/homepage_item_comment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left"
+                android:text="255评论" />
+
+            <TextView
+                android:id="@id/homepage_item_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left"
+                android:text="07-28 11:20" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:id="@+id/homepage_normalitem_imageview"
+            android:layout_width="@dimen/home_page_normalitem_img_width"
+            android:layout_height="@dimen/home_page_normalitem_img_height"
+            android:scaleType="fitXY"
+            android:src="@drawable/screen0" />
+
+        <ImageView
+            android:id="@+id/homepage_normalitem_videoplay_img"
+            android:layout_width="@dimen/home_page_normalitem_videoplay_size"
+            android:layout_height="@dimen/home_page_normalitem_videoplay_size"
+            android:layout_gravity="center"
+            android:src="@drawable/homepage_item_video_play" />
+    </FrameLayout>
+
+</RelativeLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- home push view-->
+    <integer name="home_push_view_cache_size">4</integer>
+</resources>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:chinahelth="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_menu_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/sliding_menu_divider"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <com.chinahelth.ui.slidingmenu.MenuItemAccount
+            android:id="@+id/sliding_menu_item_account"
+            style="@style/Theme.ChinaHealth.SlidingMenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            chinahelth:layoutRes="@layout/slidingmenu_item_account"
+            chinahelth:normalType="@string/sliding_menu_normalitem_account_type"
+            chinahelth:titleImg="@drawable/slidingmenu_item_account"
+            chinahelth:titleName="@string/sliding_menu_account_not_login" />
+
+
+        <com.chinahelth.ui.slidingmenu.MenuItemNewAcvite
+            android:id="@+id/sliding_menu_item_newactive"
+            style="@style/Theme.ChinaHealth.SlidingMenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            chinahelth:layoutRes="@layout/slidingmenu_item_newactive"
+            chinahelth:normalType="@string/sliding_menu_normalitem_newactive_type"
+            chinahelth:titleImg="@drawable/ic_launcher"
+            chinahelth:titleName="@string/sliding_menu_newactive_hasactive" />
+
+        <com.chinahelth.ui.slidingmenu.MenuItemBase
+            android:id="@+id/sliding_menu_item_home"
+            style="@style/Theme.ChinaHealth.SlidingMenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            chinahelth:layoutRes="@layout/slidingmenu_item_normalbase"
+            chinahelth:normalType="@string/sliding_menu_normalitem_home_type"
+            chinahelth:titleImg="@drawable/slidingmenu_item_home_light"
+            chinahelth:titleName="@string/sliding_menu_normalitem_home_name" />
+
+        <com.chinahelth.ui.slidingmenu.MenuItemBase
+            android:id="@+id/sliding_menu_item_collect"
+            style="@style/Theme.ChinaHealth.SlidingMenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            chinahelth:layoutRes="@layout/slidingmenu_item_normalbase"
+            chinahelth:normalType="@string/sliding_menu_normalitem_collect_type"
+            chinahelth:titleImg="@drawable/slidingmenu_item_collcet_light"
+            chinahelth:titleName="@string/sliding_menu_normalitem_collect_name" />
+
+        <com.chinahelth.ui.slidingmenu.MenuItemBase
+            android:id="@+id/sliding_menu_item_friends"
+            style="@style/Theme.ChinaHealth.SlidingMenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            chinahelth:layoutRes="@layout/slidingmenu_item_normalbase"
+            chinahelth:normalType="@string/sliding_menu_normalitem_friends_type"
+            chinahelth:titleImg="@drawable/slidingmenu_item_friends_light"
+            chinahelth:titleName="@string/sliding_menu_normalitem_friends_name" />
+
+        <com.chinahelth.ui.slidingmenu.MenuItemBase
+            android:id="@+id/sliding_menu_item_advise"
+            style="@style/Theme.ChinaHealth.SlidingMenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            chinahelth:layoutRes="@layout/slidingmenu_item_normalbase"
+            chinahelth:normalType="@string/sliding_menu_normalitem_advise_type"
+            chinahelth:titleImg="@drawable/slidingmenu_item_advise_light"
+            chinahelth:titleName="@string/sliding_menu_normalitem_advise_name" />
+
+        <com.chinahelth.ui.slidingmenu.MenuItemBase
+            android:id="@+id/sliding_menu_item_logout"
+            style="@style/Theme.ChinaHealth.SlidingMenuItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            chinahelth:layoutRes="@layout/slidingmenu_item_normalbase"
+            chinahelth:normalType="@string/sliding_menu_normalitem_logout_type"
+            chinahelth:titleImg="@drawable/slidingmenu_item_logout_light"
+            chinahelth:titleName="@string/sliding_menu_normalitem_logout_name" />
+    </LinearLayout>
+</ScrollView>

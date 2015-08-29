@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/sliding_menu_item_newactive_margin">
+
+        <ImageView
+            android:id="@id/slidingmenu_item_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@id/slidingmenu_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/sliding_menu_newactive_hasactive" />
+    </FrameLayout>
+</merge>

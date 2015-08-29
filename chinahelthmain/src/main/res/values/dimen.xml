@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- home push view-->
+    <dimen name="home_push_view_indicator_radius">3dp</dimen>
+    <dimen name="home_push_view_indicator_marginbottom">1dp</dimen>
+    <dimen name="home_push_view_container_minHeight">200dp</dimen>
+    <dimen name="home_push_view_margin_top">5dp</dimen>
+    <dimen name="home_push_view_margin_left">5dp</dimen>
+    <dimen name="home_push_view_margin_right">@dimen/home_push_view_margin_left</dimen>
+    <dimen name="home_push_view_page_margin">0dp</dimen>
+    <dimen name="home_push_view_title_marginleft">6dp</dimen>
+    <dimen name="home_push_view_title_marginbottom">2dp</dimen>
+
+
+    <!-- home page -->
+    <dimen name="home_page_margin_left">5dp</dimen>
+    <dimen name="home_page_margin_right">5dp</dimen>
+    <dimen name="home_page_item_margin_top">8dp</dimen>
+    <dimen name="home_page_item_margin_bottom">8dp</dimen>
+    <dimen name="home_page_normalitem_undertext_margin_left">5dp</dimen>
+    <dimen name="home_page_normalitem_undertext_margin_top">13dp</dimen>
+    <dimen name="home_page_normalitem_img_height">65dp</dimen>
+    <dimen name="home_page_normalitem_img_width">83dp</dimen>
+    <dimen name="home_page_normalitem_videoplay_size">20dp</dimen>
+    <dimen name="home_page_galleryitem_margin_top">7dp</dimen>
+    <dimen name="home_page_galleryitem_img_margin_left">10dp</dimen>
+    <dimen name="home_page_bigpicitem_img_height">266dp</dimen>
+    <dimen name="home_page_bigpicitem_img_width">340dp</dimen>
+    <dimen name="home_page_bigpicitem_img_margin_top">5dp</dimen>
+
+    <!-- sliding menu -->
+    <dimen name="sliding_menu_behind_width">240dp</dimen>
+    <dimen name="sliding_menu_behind_offset">10dp</dimen>
+    <dimen name="sliding_menu_item_account_margin">15dp</dimen>
+    <dimen name="sliding_menu_item_account_img_width">80dp</dimen>
+    <dimen name="sliding_menu_item_account_img_height">80dp</dimen>
+    <dimen name="sliding_menu_item_newactive_margin">10dp</dimen>
+    <dimen name="sliding_menu_item_normalbase_img_width">32dp</dimen>
+    <dimen name="sliding_menu_item_normalbase_img_height">32dp</dimen>
+    <dimen name="sliding_menu_item_normalbase_margin">15dp</dimen>
+    <dimen name="sliding_menu_item_normalbase_name_margin_left">10dp</dimen>
+</resources>

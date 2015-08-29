@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/sliding_menu_item_account_margin"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@id/slidingmenu_item_img"
+            android:layout_width="@dimen/sliding_menu_item_account_img_width"
+            android:layout_height="@dimen/sliding_menu_item_account_img_height"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/slidingmenu_item_account" />
+
+        <TextView
+            android:id="@id/slidingmenu_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/sliding_menu_account_not_login" />
+    </LinearLayout>
+</merge>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- sliding menu item type -->
+    <string name="sliding_menu_normalitem_account_type">ACCOUNT</string>
+    <string name="sliding_menu_normalitem_newactive_type">NEWACTIVE</string>
+    <string name="sliding_menu_normalitem_home_type">HOME</string>
+    <string name="sliding_menu_normalitem_collect_type">COLLECT</string>
+    <string name="sliding_menu_normalitem_friends_type">FRIENDS</string>
+    <string name="sliding_menu_normalitem_advise_type">ADVISE</string>
+    <string name="sliding_menu_normalitem_logout_type">LOGOUT</string>
+
+    <!-- common -->
+    <string name="helth_app_name">ChinaHelthMain</string>
+    <string name="health_comment">comment</string>
+
+
+    <!-- error tip-->
+    <string name="connect_timeout_error">time out of connection</string>
+
+    <!-- sliding menu -->
+    <string name="sliding_menu_account_not_login">not login</string>
+    <string name="sliding_menu_newactive_hasactive">have new active</string>
+    <string name="sliding_menu_normalitem_home_name">home page</string>
+    <string name="sliding_menu_normalitem_collect_name">my collect</string>
+    <string name="sliding_menu_normalitem_friends_name">my friends</string>
+    <string name="sliding_menu_normalitem_logout_name">logout</string>
+    <string name="sliding_menu_normalitem_advise_name">advise</string>
+
+    <!-- home pages -->
+    <string name="homepage_title_main">Home</string>
+    <string name="homepage_title_food">Food</string>
+    <string name="homepage_title_tea">Tea</string>
+    <string name="homepage_title_kongfu">Kongfu</string>
+    <string name="homepage_title_buddhism">Buddhism</string>
+    <string name="homepage_item_hour_ago">hour ago</string>
+</resources>
