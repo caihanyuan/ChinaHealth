@@ -1,21 +1,18 @@
 package com.chinahelth.ui.homepages;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by caihanyuan on 15-7-14.
