@@ -5,7 +5,7 @@ import android.os.Build;
 /**
  * Created by caihanyuan on 15-7-7.
  */
-public class VersionUtil {
+public class SDKUtil {
     /**
      * version after 1.5
      */

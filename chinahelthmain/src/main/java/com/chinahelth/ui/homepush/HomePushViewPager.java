@@ -6,13 +6,13 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 import com.chinahelth.HealthConfig;
+import com.chinahelth.support.utils.LogUtils;
 
 import java.lang.reflect.Field;
 
@@ -63,9 +63,7 @@ public class HomePushViewPager extends ViewPager {
 
     @Override
     protected void onDetachedFromWindow() {
-        if (HealthConfig.isDebug) {
-            Log.d(TAG, "HomePUshViewPager onDetachedFromWindow");
-        }
+        LogUtils.d(TAG, "HomePUshViewPager onDetachedFromWindow");
         timeThreadRun = false;
         super.onDetachedFromWindow();
     }
@@ -75,9 +73,7 @@ public class HomePushViewPager extends ViewPager {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (getScrooler() != defaultScroller) {
                 setScroller(defaultScroller);
-                if (HealthConfig.isDebug) {
-                    Log.d(TAG, "set default scroller");
-                }
+                LogUtils.d(TAG, "set default scroller");
             }
             resetScrollTime();
         }
@@ -116,11 +112,11 @@ public class HomePushViewPager extends ViewPager {
             mScroller.setAccessible(true);
             mScroller.set(this, scroller);
         } catch (NoSuchFieldException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         } catch (IllegalAccessException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         }
     }
 
@@ -132,11 +128,11 @@ public class HomePushViewPager extends ViewPager {
             mScroller.setAccessible(true);
             currentScroll = (Scroller) mScroller.get(this);
         } catch (NoSuchFieldException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         } catch (IllegalArgumentException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         } catch (IllegalAccessException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         } finally {
             return currentScroll;
         }
@@ -181,9 +177,7 @@ public class HomePushViewPager extends ViewPager {
                 }
                 if (getScrooler() != myScroller) {
                     setScroller(myScroller);
-                    if (HealthConfig.isDebug) {
-                        Log.d(TAG, "set own scroller");
-                    }
+                    LogUtils.d(TAG, "set own scroller");
                 }
                 resetScrollTime();
             }

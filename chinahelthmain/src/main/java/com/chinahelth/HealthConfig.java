@@ -12,7 +12,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
  * Created by caihanyuan on 7/2/15.
  */
 public class HealthConfig {
-    public final static boolean isDebug = true;
+    public final static boolean isDebug = BuildConfig.DEBUG_LOG;
 
     public final static boolean isLoop = true;
 
@@ -41,7 +41,7 @@ public class HealthConfig {
     }
 
     static void initDefaultImageLoader() {
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(HealthApplication.context);
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(HealthApplication.getInstance());
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
         config.diskCacheFileNameGenerator(new Md5FileNameGenerator());

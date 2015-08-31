@@ -3,7 +3,7 @@ package com.chinahelth.support.bean;
 /**
  * Created by caihanyuan on 15-8-22.
  */
-public class HomepageItemType {
+public class ArticleItemType {
 
     public final static int NORMAL_TEXT = 0;
 

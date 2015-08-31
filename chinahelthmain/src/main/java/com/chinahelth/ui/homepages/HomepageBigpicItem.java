@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chinahelth.R;
-import com.chinahelth.support.bean.HomepageItemBean;
+import com.chinahelth.support.bean.ArticleItemBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -32,10 +32,10 @@ public class HomepageBigpicItem extends HomepageBaseItem {
     }
 
     @Override
-    protected void setHomepageItemData(HomepageItemBean homepageItemBean) {
+    protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         super.setHomepageItemData(homepageItemBean);
-        if(homepageItemBean.imgUris.length > 0){
-            String imgeUri = homepageItemBean.imgUris[0];
+        if(homepageItemBean.thumbnailUris.length > 0){
+            String imgeUri = homepageItemBean.thumbnailUris[0];
             ImageLoader.getInstance().displayImage(imgeUri, mItemImageView, mDisplayImageOptions, this);
         }
     }

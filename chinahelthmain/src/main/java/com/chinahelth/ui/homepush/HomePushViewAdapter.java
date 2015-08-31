@@ -2,13 +2,13 @@ package com.chinahelth.ui.homepush;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chinahelth.HealthApplication;
 import com.chinahelth.HealthConfig;
 import com.chinahelth.support.bean.HomePushItemBean;
+import com.chinahelth.support.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,9 +46,7 @@ public class HomePushViewAdapter extends PagerAdapter {
             homePushItem = instantiateItemNormal(container, position, position);
         }
         container.addView(homePushItem);
-        if (HealthConfig.isDebug) {
-            Log.d(TAG, "new pushitem " + position + ": " + homePushItem.getItemData().toString());
-        }
+        LogUtils.d(TAG, "new pushitem " + position + ": " + homePushItem.getItemData().toString());
         return homePushItem;
     }
 
@@ -56,9 +54,7 @@ public class HomePushViewAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
 
-        if (HealthConfig.isDebug) {
-            Log.d(TAG, "destory item " + position + ": " + object.toString());
-        }
+        LogUtils.d(TAG, "destory item " + position + ": " + object.toString());
     }
 
     @Override
@@ -69,9 +65,7 @@ public class HomePushViewAdapter extends PagerAdapter {
         if (currentPushItem != homePushItem) {
             currentPushItem = homePushItem;
 
-            if (HealthConfig.isDebug) {
-                Log.d(TAG, "current pushitem " + position + ": " + homePushItem.getItemData().toString());
-            }
+            LogUtils.d(TAG, "current pushitem " + position + ": " + homePushItem.getItemData().toString());
         }
     }
 
@@ -99,9 +93,7 @@ public class HomePushViewAdapter extends PagerAdapter {
                 break;
             }
         }
-        if (HealthConfig.isDebug) {
-            Log.d(TAG, "get item position:" + position);
-        }
+        LogUtils.d(TAG, "get item position:" + position);
 
         return position;
     }
@@ -132,7 +124,7 @@ public class HomePushViewAdapter extends PagerAdapter {
             }
             initPageIndex();
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
         }
     }
 

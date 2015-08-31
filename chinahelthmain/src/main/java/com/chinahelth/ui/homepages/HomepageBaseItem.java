@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
-import com.chinahelth.support.bean.HomepageItemBean;
+import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.utils.TimeUtility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -35,7 +35,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener{
 
     protected TextView mPublishTimeText;
 
-    protected HomepageItemBean mHomepageItemData;
+    protected ArticleItemBean mHomepageItemData;
 
     protected DisplayImageOptions mDisplayImageOptions;
 
@@ -105,16 +105,16 @@ public abstract class HomepageBaseItem implements ImageLoadingListener{
         }
     }
 
-    protected void setHomepageItemData(HomepageItemBean homepageItemBean) {
+    protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         mHomepageItemData = homepageItemBean;
         setTitleText(mHomepageItemData.title);
         setFromText(mHomepageItemData.from);
         setCommentNumText(mHomepageItemData.commentNums);
-        setPublishTimeText(mHomepageItemData.publisTime);
+        setPublishTimeText(mHomepageItemData.publishTime);
         setTitleRead(mHomepageItemData.isReaded);
     }
 
-    public HomepageItemBean getHomepageItemData() {
+    public ArticleItemBean getHomepageItemData() {
         return mHomepageItemData;
     }
 

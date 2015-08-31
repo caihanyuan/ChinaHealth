@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chinahelth.R;
-import com.chinahelth.support.bean.HomepageItemBean;
+import com.chinahelth.support.bean.ArticleItemBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -45,15 +45,15 @@ public class HomePageGalleryItem extends HomepageBaseItem {
     }
 
     @Override
-    protected void setHomepageItemData(HomepageItemBean homepageItemBean) {
+    protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         super.setHomepageItemData(homepageItemBean);
-        if(homepageItemBean.imgUris.length > 0){
-            int length = Math.min(homepageItemBean.imgUris.length, mImageViews.size());
+        if(homepageItemBean.thumbnailUris.length > 0){
+            int length = Math.min(homepageItemBean.thumbnailUris.length, mImageViews.size());
             ImageView imageView = null;
             for(int i = 0; i < mImageViews.size(); i++){
                 imageView = mImageViews.get(i);
                 if(i < length){
-                    String url = homepageItemBean.imgUris[i];
+                    String url = homepageItemBean.thumbnailUris[i];
                     imageView.setVisibility(View.VISIBLE);
                     ImageLoader.getInstance().displayImage(url, imageView, mDisplayImageOptions, this);
                 }else{

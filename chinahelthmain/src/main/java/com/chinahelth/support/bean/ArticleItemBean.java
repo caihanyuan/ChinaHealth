@@ -3,7 +3,9 @@ package com.chinahelth.support.bean;
 /**
  * Created by caihanyuan on 15-7-20.
  */
-public class HomepageItemBean {
+public class ArticleItemBean {
+
+    public String artileId;
 
     public int itemType;
 
@@ -13,9 +15,9 @@ public class HomepageItemBean {
 
     public int commentNums;
 
-    public long publisTime;
+    public long publishTime;
 
-    public String[] imgUris;
+    public String[] thumbnailUris;
 
     public boolean isReaded = false;
 }

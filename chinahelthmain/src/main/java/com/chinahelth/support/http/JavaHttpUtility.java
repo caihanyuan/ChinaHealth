@@ -1,9 +1,9 @@
 package com.chinahelth.support.http;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.chinahelth.HealthConfig;
+import com.chinahelth.support.utils.LogUtils;
 import com.chinahelth.support.utils.Utility;
 
 import java.io.BufferedReader;
@@ -120,7 +120,7 @@ public class JavaHttpUtility {
             out.close();
             return handleResponse(uRLConnection);
         } catch (IOException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
             return null;
         }
     }
@@ -130,7 +130,7 @@ public class JavaHttpUtility {
         try {
             status = httpURLConnection.getResponseCode();
         } catch (IOException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
             httpURLConnection.disconnect();
         }
 
@@ -164,10 +164,10 @@ public class JavaHttpUtility {
             while ((line = buffer.readLine()) != null) {
                 strBuilder.append(line);
             }
-            Log.d(TAG, "result=" + strBuilder.toString());
+            LogUtils.d(TAG, "result=" + strBuilder.toString());
             return strBuilder.toString();
         } catch (IOException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
             return null;
         } finally {
             Utility.closeSilently(is);
@@ -199,7 +199,7 @@ public class JavaHttpUtility {
             while ((line = buffer.readLine()) != null) {
                 strBuilder.append(line);
             }
-            Log.e(TAG, "error result=" + strBuilder.toString());
+            LogUtils.e(TAG, "error result=" + strBuilder.toString());
             return strBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
@@ -216,7 +216,7 @@ public class JavaHttpUtility {
             StringBuilder urlBuilder = new StringBuilder(urlStr);
             urlBuilder.append("?").append(Utility.encodeUrl(param));
             URL url = new URL(urlBuilder.toString());
-            Log.d(TAG, "get request" + url);
+            LogUtils.d(TAG, "get request" + url);
             Proxy proxy = getProxy();
             HttpURLConnection urlConnection;
             if (proxy != null) {
@@ -237,7 +237,7 @@ public class JavaHttpUtility {
 
             return handleResponse(urlConnection);
         } catch (IOException e) {
-            Log.e(TAG, e.toString());
+            LogUtils.e(TAG, e.toString());
             return null;
         }
     }

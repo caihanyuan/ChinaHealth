@@ -3,7 +3,6 @@ package com.chinahelth.ui.homepush;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.chinahelth.support.bean.HomePushItemBean;
+import com.chinahelth.support.utils.LogUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -47,9 +47,7 @@ public class HomePushItem extends FrameLayout implements ImageLoadingListener, V
 
     @Override
     public void onClick(View v) {
-        if (HealthConfig.isDebug) {
-            Log.d(TAG, "pushviewItem: " + itemData.toString() + " clicked");
-        }
+        LogUtils.d(TAG, "pushviewItem: " + itemData.toString() + " clicked");
     }
 
     @Override
@@ -59,9 +57,7 @@ public class HomePushItem extends FrameLayout implements ImageLoadingListener, V
 
     @Override
     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-        if (HealthConfig.isDebug) {
-            Log.d(ImageLoader.TAG, "image:" + imageUri + " load failed");
-        }
+        LogUtils.d(ImageLoader.TAG, "image:" + imageUri + " load failed");
     }
 
     @Override
@@ -70,9 +66,7 @@ public class HomePushItem extends FrameLayout implements ImageLoadingListener, V
 
     @Override
     public void onLoadingCancelled(String imageUri, View view) {
-        if (HealthConfig.isDebug) {
-            Log.d(ImageLoader.TAG, "image:" + imageUri + " loading cancelled");
-        }
+        LogUtils.d(ImageLoader.TAG, "image:" + imageUri + " loading cancelled");
     }
 
     private void initView(Context context) {

@@ -1,7 +1,6 @@
 package com.chinahelth;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.res.Configuration;
 
 /**
@@ -10,15 +9,12 @@ import android.content.res.Configuration;
 public class HealthApplication extends Application {
     private final static String TAG = HealthApplication.class.getName();
 
-    public static Context context;
-
     private static HealthApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        context = getApplicationContext();
         HealthConfig.initDefaultImageLoader();
     }
 
@@ -29,7 +25,6 @@ public class HealthApplication extends Application {
 
     @Override
     public void onTerminate() {
-        context = null;
         instance = null;
         HealthConfig.destory();
         super.onTerminate();

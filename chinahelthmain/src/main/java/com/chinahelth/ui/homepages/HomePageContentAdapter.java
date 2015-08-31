@@ -6,15 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.chinahelth.support.bean.HomepageItemBean;
-import com.chinahelth.ui.homepages.base.RemoteSyncInterface;
+import com.chinahelth.support.bean.ArticleItemBean;
 
 import java.util.LinkedList;
 
 /**
  * Created by caihanyuan on 15-8-8.
  */
-public class HomePageContentAdapter extends BaseAdapter implements RemoteSyncInterface {
+public class HomePageContentAdapter extends BaseAdapter{
 
     private Context mContext;
 
@@ -22,7 +21,7 @@ public class HomePageContentAdapter extends BaseAdapter implements RemoteSyncInt
 
     private LayoutInflater mLayoutInflater;
 
-    private LinkedList<HomepageItemBean> mItemsDataList = new LinkedList();
+    private LinkedList<ArticleItemBean> mItemsDataList = new LinkedList();
 
     public HomePageContentAdapter(Context context, String pageType) {
         mContext = context;
@@ -48,20 +47,5 @@ public class HomePageContentAdapter extends BaseAdapter implements RemoteSyncInt
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return null;
-    }
-
-    @Override
-    public void setRemoteSyncListner(RemoteSyncListenr remoteSyncListner) {
-
-    }
-
-    @Override
-    public void loadDataInDatabase() {
-
-    }
-
-    @Override
-    public void syncDataFromRemote() {
-
     }
 }

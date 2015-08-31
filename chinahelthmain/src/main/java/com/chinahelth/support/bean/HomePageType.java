@@ -14,5 +14,4 @@ public class HomePageType {
     public final static String KONGFU = "KONGFU";
 
     public final static String BUDDHISM = "BUDDHISM";
-
 }
