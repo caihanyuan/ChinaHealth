@@ -5,8 +5,8 @@
  */
 
 package com.nostra13.universalimageloader.core.assist.deque;
+
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 

@@ -2,14 +2,10 @@ package com.chinahelth.ui.homepages;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chinahelth.HealthApplication;
 import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.chinahelth.support.bean.HomepageItemBean;

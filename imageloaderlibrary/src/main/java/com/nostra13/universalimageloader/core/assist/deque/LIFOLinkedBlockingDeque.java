@@ -1,7 +1,5 @@
 package com.nostra13.universalimageloader.core.assist.deque;
 
-import java.util.NoSuchElementException;
-
 /**
  * {@link com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque} using LIFO algorithm
  * 
