@@ -10,7 +10,7 @@
     <!-- id define -->
     <item name="slidingmenu_item_img" type="id" />
     <item name="slidingmenu_item_name" type="id" />
-    <item name="homepage_listview" type="id" />
+    <item name="homepage_refreshview" type="id" />
     <item name="homepage_item_title_text" type="id" />
     <item name="homepage_item_from_text" type="id" />
     <item name="homepage_item_comment_text" type="id" />
