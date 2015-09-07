@@ -5,13 +5,13 @@ package com.chinahelth.support.bean;
  */
 public class HomePageType {
 
-    public final static String HOME = "HOME";
+    public final static int HOME = 0;
 
-    public final static String FOOD = "FOOD";
+    public final static int FOOD = 1;
 
-    public final static String TEA = "TEA";
+    public final static int TEA = 2;
 
-    public final static String KONGFU = "KONGFU";
+    public final static int KONGFU = 3;
 
-    public final static String BUDDHISM = "BUDDHISM";
+    public final static int BUDDHISM = 4;
 }

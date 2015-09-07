@@ -24,25 +24,15 @@ public class HomePushViewPager extends ViewPager {
     private final static String TAG = HomePushViewAdapter.class.getSimpleName();
 
     private final static int SCROLL = 1;
-
-    private Scroller defaultScroller;
-
-    private Scroller myScroller;
-
-    private OnPageChangeListener pageChangeListener;
-
-    private Handler scrollHandler;
-
-    private Thread timeThread;
-
-    private int scrollState = ViewPager.SCROLL_STATE_IDLE;
-
-    private boolean timeThreadRun = true;
-
     int firstPage = 0;
-
     int endPage;
-
+    private Scroller defaultScroller;
+    private Scroller myScroller;
+    private OnPageChangeListener pageChangeListener;
+    private Handler scrollHandler;
+    private Thread timeThread;
+    private int scrollState = ViewPager.SCROLL_STATE_IDLE;
+    private boolean timeThreadRun = true;
     private long lastScrollTime = 0;
 
     public HomePushViewPager(Context context) {

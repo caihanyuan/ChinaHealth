@@ -39,7 +39,7 @@ public class HomePageNormalItem extends HomepageBaseItem {
     @Override
     protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         super.setHomepageItemData(homepageItemBean);
-        if(homepageItemBean.thumbnailUris.length > 0){
+        if (homepageItemBean.thumbnailUris.length > 0) {
             String imgeUri = homepageItemBean.thumbnailUris[0];
             ImageLoader.getInstance().displayImage(imgeUri, mItemImageView, mDisplayImageOptions, this);
         }

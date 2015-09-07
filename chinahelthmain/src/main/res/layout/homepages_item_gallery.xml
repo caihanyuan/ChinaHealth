@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/homepage_item_title_text"
-        android:showDividers="middle"
-        android:layout_marginTop="@dimen/home_page_galleryitem_margin_top">
+        android:layout_marginTop="@dimen/home_page_galleryitem_margin_top"
+        android:showDividers="middle">
 
         <ImageView
             android:layout_width="@dimen/home_page_normalitem_img_width"

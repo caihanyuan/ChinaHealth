@@ -11,6 +11,10 @@ public class HealthApplication extends Application {
 
     private static HealthApplication instance;
 
+    public static HealthApplication getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -38,9 +42,5 @@ public class HealthApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-    }
-
-    public static HealthApplication getInstance() {
-        return instance;
     }
 }

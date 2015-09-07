@@ -31,14 +31,6 @@ public class JavaHttpUtility {
 
     private static final int CONNECT_TIMEOUT = 10 * 1000;
     private static final int READ_TIMEOUT = 10 * 1000;
-
-    public class NullHostNameVerifier implements HostnameVerifier {
-
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
-        }
-    }
-
     private TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -54,16 +46,6 @@ public class JavaHttpUtility {
                 }
             }
     };
-
-    public String executeNormalTask(HttpMethod httpMethod, String url, Map<String, String> param) {
-        switch (httpMethod) {
-            case Post:
-                return doPost(url, param);
-            case Get:
-                return doGet(url, param);
-        }
-        return "";
-    }
 
     public JavaHttpUtility() {
 
@@ -89,6 +71,16 @@ public class JavaHttpUtility {
         } else {
             return null;
         }
+    }
+
+    public String executeNormalTask(HttpMethod httpMethod, String url, Map<String, String> param) {
+        switch (httpMethod) {
+            case Post:
+                return doPost(url, param);
+            case Get:
+                return doGet(url, param);
+        }
+        return "";
     }
 
     public String doPost(String urlAddress, Map<String, String> param) {
@@ -239,6 +231,13 @@ public class JavaHttpUtility {
         } catch (IOException e) {
             LogUtils.e(TAG, e.toString());
             return null;
+        }
+    }
+
+    public class NullHostNameVerifier implements HostnameVerifier {
+
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
         }
     }
 }

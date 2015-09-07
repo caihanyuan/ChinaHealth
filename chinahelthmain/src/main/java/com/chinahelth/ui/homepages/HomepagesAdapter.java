@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.chinahelth.HealthApplication;
 import com.chinahelth.R;
+import com.chinahelth.support.bean.HomePageType;
 
 import java.util.ArrayList;
 
@@ -43,28 +44,28 @@ public class HomepagesAdapter extends FragmentPagerAdapter {
         Resources resources = HealthApplication.getInstance().getResources();
 
         title = resources.getString(R.string.homepage_title_main);
-        fragment = new HomepageMainFragment();
+        fragment = HomepageContentFragment.newInstace(HomePageType.HOME);
         mHomepageTitles.add(title);
         mHomepageFragments.add(fragment);
 
         title = resources.getString(R.string.homepage_title_food);
-        fragment = new HomePageFoodFragment();
+        fragment = HomepageContentFragment.newInstace(HomePageType.FOOD);
         mHomepageTitles.add(title);
         mHomepageFragments.add(fragment);
 
 
         title = resources.getString(R.string.homepage_title_tea);
-        fragment = new HomepageTeaFragment();
+        fragment = HomepageContentFragment.newInstace(HomePageType.TEA);
         mHomepageTitles.add(title);
         mHomepageFragments.add(fragment);
 
         title = resources.getString(R.string.homepage_title_kongfu);
-        fragment = new HomePageKongfuFragment();
+        fragment = HomepageContentFragment.newInstace(HomePageType.KONGFU);
         mHomepageTitles.add(title);
         mHomepageFragments.add(fragment);
 
         title = resources.getString(R.string.homepage_title_buddhism);
-        fragment = new HomepageBuddhismFragment();
+        fragment = HomepageContentFragment.newInstace(HomePageType.BUDDHISM);
         mHomepageTitles.add(title);
         mHomepageFragments.add(fragment);
     }

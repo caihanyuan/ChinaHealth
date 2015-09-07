@@ -47,16 +47,16 @@ public class HomePageGalleryItem extends HomepageBaseItem {
     @Override
     protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         super.setHomepageItemData(homepageItemBean);
-        if(homepageItemBean.thumbnailUris.length > 0){
+        if (homepageItemBean.thumbnailUris.length > 0) {
             int length = Math.min(homepageItemBean.thumbnailUris.length, mImageViews.size());
             ImageView imageView = null;
-            for(int i = 0; i < mImageViews.size(); i++){
+            for (int i = 0; i < mImageViews.size(); i++) {
                 imageView = mImageViews.get(i);
-                if(i < length){
+                if (i < length) {
                     String url = homepageItemBean.thumbnailUris[i];
                     imageView.setVisibility(View.VISIBLE);
                     ImageLoader.getInstance().displayImage(url, imageView, mDisplayImageOptions, this);
-                }else{
+                } else {
                     imageView.setVisibility(View.GONE);
                 }
             }

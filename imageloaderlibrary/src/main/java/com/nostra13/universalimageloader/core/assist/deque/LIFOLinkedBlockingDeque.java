@@ -2,7 +2,7 @@ package com.nostra13.universalimageloader.core.assist.deque;
 
 /**
  * {@link com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque} using LIFO algorithm
- * 
+ *
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  * @since 1.6.3
  */
@@ -15,7 +15,7 @@ public class LIFOLinkedBlockingDeque<T> extends LinkedBlockingDeque<T> {
 	 * capacity restrictions, returning <tt>true</tt> upon success and <tt>false</tt> if no space is currently
 	 * available. When using a capacity-restricted deque, this method is generally preferable to the {@link #addFirst
 	 * addFirst} method, which can fail to insert an element only by throwing an exception.
-	 * 
+	 *
 	 * @param e
 	 *            the element to add
 	 * @throws ClassCastException
@@ -33,7 +33,7 @@ public class LIFOLinkedBlockingDeque<T> extends LinkedBlockingDeque<T> {
 	/**
 	 * Retrieves and removes the first element of this deque. This method differs from {@link #pollFirst pollFirst} only
 	 * in that it throws an exception if this deque is empty.
-	 * 
+	 *
 	 * @return the head of this deque
 	 * @throws java.util.NoSuchElementException
 	 *             if this deque is empty

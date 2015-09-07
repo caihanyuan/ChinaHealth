@@ -10,35 +10,34 @@ import com.chinahelth.support.database.table.ArticleItemTable;
 /**
  * Created by caihanyuan on 15-8-31.
  */
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseManager extends SQLiteOpenHelper {
 
     private final static String DB_NAME = "chinahealth.db";
 
     private final static int DB_VERSION = 1;
-
+    private static DatabaseManager mInstance = null;
     private final String CREATE_ARTICLEITEM_TABLE_SQL = "create table " + ArticleItemTable.TABLE_NAME
             + "("
             + ArticleItemTable.UID + " integer primary key autoincrement,"
+            + ArticleItemTable.GROUP_TYPE + " integer,"
             + ArticleItemTable.TYPE + " integer,"
             + ArticleItemTable.TITLE + " text,"
-            + ArticleItemTable.FROM + " text,"
+            + ArticleItemTable.SOURCE + " text,"
             + ArticleItemTable.COMMENT_NUMS + " integer,"
             + ArticleItemTable.PUBLISH_TIME + " integer,"
             + ArticleItemTable.THUMBNAIL_URIS + " text,"
             + ArticleItemTable.IS_READED + " integer"
             + ");";
 
-    private static DatabaseHelper mInstance = null;
-
-    public static DatabaseHelper getInstance() {
-        if (mInstance == null) {
-            mInstance = new DatabaseHelper(HealthApplication.getInstance(), DB_NAME, null, DB_VERSION);
-        }
-        return mInstance;
+    private DatabaseManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
     }
 
-    private DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public static DatabaseManager getInstance() {
+        if (mInstance == null) {
+            mInstance = new DatabaseManager(HealthApplication.getInstance(), DB_NAME, null, DB_VERSION);
+        }
+        return mInstance;
     }
 
     @Override

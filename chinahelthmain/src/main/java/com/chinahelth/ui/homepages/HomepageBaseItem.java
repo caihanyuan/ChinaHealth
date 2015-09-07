@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Created by caihanyuan on 15-7-20.
  */
-public abstract class HomepageBaseItem implements ImageLoadingListener{
+public abstract class HomepageBaseItem implements ImageLoadingListener {
 
     protected Context mContext;
 
@@ -53,10 +53,10 @@ public abstract class HomepageBaseItem implements ImageLoadingListener{
         }
     }
 
-    protected void setTitleRead(boolean isReaded){
-        if(isReaded){
+    protected void setTitleRead(boolean isReaded) {
+        if (isReaded) {
 
-        }else{
+        } else {
 
         }
     }
@@ -78,20 +78,20 @@ public abstract class HomepageBaseItem implements ImageLoadingListener{
         }
     }
 
-    private void setPublishTimeText(long time){
+    private void setPublishTimeText(long time) {
         String timeText = null;
         SimpleDateFormat simpleDateFormat = null;
         long pastTime = System.currentTimeMillis() - time;
-        if(pastTime < TimeUtility.ONE_HOUR){
-            if(mPublishTimeText != null){
+        if (pastTime < TimeUtility.ONE_HOUR) {
+            if (mPublishTimeText != null) {
                 mPublishTimeText.setVisibility(View.GONE);
             }
-        }else if(pastTime <= TimeUtility.ONE_DAY){
+        } else if (pastTime <= TimeUtility.ONE_DAY) {
             simpleDateFormat = new SimpleDateFormat("HH");
             String hour = simpleDateFormat.format(new Date(pastTime));
             timeText = hour + mContext.getResources().getString(R.string.homepage_item_hour_ago);
             setPublishTimeText(timeText);
-        }else{
+        } else {
             simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
             timeText = simpleDateFormat.format(new Date(time));
             setPublishTimeText(timeText);
@@ -118,7 +118,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener{
         return mHomepageItemData;
     }
 
-    public View getItem(){
+    public View getItem() {
         return mItemRoot;
     }
 

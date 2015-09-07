@@ -56,7 +56,7 @@ public class HomepagesContainerFragment extends Fragment {
     }
 
     private void initView(View container) {
-        if(HealthConfig.isDebug){
+        if (HealthConfig.isDebug) {
             Log.d(TAG, "initVeiw");
         }
         mViewPager = (ViewPager) container.findViewById(R.id.homepages_viewpager);

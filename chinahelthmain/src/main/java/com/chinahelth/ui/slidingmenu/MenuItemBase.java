@@ -32,15 +32,10 @@ public class MenuItemBase extends FrameLayout {
     protected Context mContext;
 
     protected ViewHolder mViewHolder;
-
-    private Drawable mTitleDrawable;
-
-    private int layoutResId;
-
-    private String mTitleName;
-
     protected String mItemTYpe;
-
+    private Drawable mTitleDrawable;
+    private int layoutResId;
+    private String mTitleName;
     private boolean attrsInit = false;
 
     public MenuItemBase(Context context, AttributeSet attrs) {
