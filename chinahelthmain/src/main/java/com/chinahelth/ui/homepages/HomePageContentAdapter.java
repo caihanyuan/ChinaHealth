@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.chinahelth.support.bean.ArticleItemBean;
+import com.chinahelth.support.bean.ArticleItemType;
 import com.chinahelth.support.database.ArticleItemLocalData;
+import com.chinahelth.support.utils.LogUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
  * Created by caihanyuan on 15-8-8.
  */
 public class HomePageContentAdapter extends BaseAdapter {
+
+    private final static String TAG = HomePageContentAdapter.class.getSimpleName();
 
     private Context mContext;
 
@@ -51,12 +55,66 @@ public class HomePageContentAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        ArticleItemBean articleItemBean = mItemsDataList.get(position);
+        HomepageBaseItem pageItem = null;
+        if (convertView == null) {
+            pageItem = createItemByType(articleItemBean);
+            convertView = pageItem.getItemView();
+            convertView.setTag(pageItem);
+            pageItem.setHomepageItemData(articleItemBean);
+        } else {
+            pageItem = (HomepageBaseItem) convertView.getTag();
+            if (pageItem.getClass() != getItemClassType(articleItemBean)) {
+                pageItem = createItemByType(articleItemBean);
+                convertView = pageItem.getItemView();
+                convertView.setTag(pageItem);
+            }
+            pageItem.setHomepageItemData(articleItemBean);
+        }
+        return convertView;
     }
 
     public int getLocalData(int offset) {
         List<ArticleItemBean> articleItemBeans = mLocalData.getAriticleItems(offset);
         mItemsDataList.addAll(articleItemBeans);
         return offset + articleItemBeans.size();
+    }
+
+    private HomepageBaseItem createItemByType(ArticleItemBean articleItemBean) {
+        HomepageBaseItem item = null;
+        switch (articleItemBean.itemType) {
+            case ArticleItemType.NORMAL_TEXT:
+            case ArticleItemType.NORMAL_VIDEO:
+                item = new HomePageNormalItem(mContext);
+                break;
+            case ArticleItemType.PROMOTION:
+                item = new HomepageBigpicItem(mContext);
+                break;
+            case ArticleItemType.GALLERY:
+                item = new HomePageGalleryItem(mContext);
+                break;
+            default:
+                LogUtils.e(TAG, "create item error, item type: " + articleItemBean.itemType + " not found");
+                break;
+        }
+        return item;
+    }
+
+    private Class getItemClassType(ArticleItemBean articleItemBean) {
+        Class itemClass = null;
+
+        switch (articleItemBean.itemType) {
+            case ArticleItemType.NORMAL_TEXT:
+            case ArticleItemType.NORMAL_VIDEO:
+                itemClass = HomePageNormalItem.class;
+                break;
+            case ArticleItemType.PROMOTION:
+                itemClass = HomepageBigpicItem.class;
+                break;
+            case ArticleItemType.GALLERY:
+                itemClass = HomePageGalleryItem.class;
+                break;
+        }
+        return itemClass;
     }
 }

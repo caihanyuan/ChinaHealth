@@ -13,17 +13,17 @@
 
 
     <!-- home page -->
-    <dimen name="home_page_margin_left">5dp</dimen>
-    <dimen name="home_page_margin_right">5dp</dimen>
+    <dimen name="home_page_margin_left">7dp</dimen>
+    <dimen name="home_page_margin_right">7dp</dimen>
     <dimen name="home_page_item_margin_top">8dp</dimen>
     <dimen name="home_page_item_margin_bottom">8dp</dimen>
-    <dimen name="home_page_normalitem_undertext_margin_left">5dp</dimen>
+    <dimen name="home_page_normalitem_undertext_margin_left">9dp</dimen>
     <dimen name="home_page_normalitem_undertext_margin_top">13dp</dimen>
-    <dimen name="home_page_normalitem_img_height">65dp</dimen>
-    <dimen name="home_page_normalitem_img_width">83dp</dimen>
-    <dimen name="home_page_normalitem_videoplay_size">20dp</dimen>
+    <dimen name="home_page_normalitem_img_height">90dp</dimen>
+    <dimen name="home_page_normalitem_img_width">117dp</dimen>
+    <dimen name="home_page_normalitem_videoplay_size">30dp</dimen>
     <dimen name="home_page_galleryitem_margin_top">7dp</dimen>
-    <dimen name="home_page_galleryitem_img_margin_left">10dp</dimen>
+    <dimen name="home_page_galleryitem_img_margin_left">3dp</dimen>
     <dimen name="home_page_bigpicitem_img_height">266dp</dimen>
     <dimen name="home_page_bigpicitem_img_width">340dp</dimen>
     <dimen name="home_page_bigpicitem_img_margin_top">5dp</dimen>

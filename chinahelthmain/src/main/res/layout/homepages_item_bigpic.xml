@@ -6,9 +6,9 @@
 
     <TextView
         android:id="@id/homepage_item_title_text"
+        style="@style/Theme.ChinaHealth.TextApperance.Title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="深圳高温40度，可以煮熟鸡蛋" />
+        android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/homepage_bigpicitem_imageview"
@@ -16,8 +16,8 @@
         android:layout_height="@dimen/home_page_bigpicitem_img_height"
         android:layout_below="@id/homepage_item_title_text"
         android:layout_marginTop="@dimen/home_page_bigpicitem_img_margin_top"
-        android:scaleType="fitXY"
-        android:src="@drawable/screen2" />
+        android:background="@color/gray"
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:id="@id/homepage_item_extrainfo_container"
@@ -29,22 +29,22 @@
 
         <TextView
             android:id="@id/homepage_item_from_text"
+            style="@style/Theme.ChinaHealth.TextApperance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="学佛网" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@id/homepage_item_comment_text"
+            style="@style/Theme.ChinaHealth.TextApperance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left"
-            android:text="255评论" />
+            android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left" />
 
         <TextView
             android:id="@id/homepage_item_time_text"
+            style="@style/Theme.ChinaHealth.TextApperance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left"
-            android:text="07-28 11:20" />
+            android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left" />
     </LinearLayout>
 </RelativeLayout>

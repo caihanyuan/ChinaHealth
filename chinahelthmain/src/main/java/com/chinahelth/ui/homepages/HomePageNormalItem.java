@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ArticleItemType;
@@ -39,9 +40,9 @@ public class HomePageNormalItem extends HomepageBaseItem {
     @Override
     protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         super.setHomepageItemData(homepageItemBean);
-        if (homepageItemBean.thumbnailUris.length > 0) {
+        if (homepageItemBean.thumbnailUris != null && homepageItemBean.thumbnailUris.length > 0) {
             String imgeUri = homepageItemBean.thumbnailUris[0];
-            ImageLoader.getInstance().displayImage(imgeUri, mItemImageView, mDisplayImageOptions, this);
+            ImageLoader.getInstance().displayImage(imgeUri, mItemImageView, HealthConfig.getDefaultDisplayImageOptions(), this);
         }
         if (homepageItemBean.itemType == ArticleItemType.NORMAL_VIDEO) {
             mVideoPlayIcon.setVisibility(View.VISIBLE);

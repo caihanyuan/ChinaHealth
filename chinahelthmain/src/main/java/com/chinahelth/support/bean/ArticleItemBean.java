@@ -7,6 +7,8 @@ public class ArticleItemBean {
 
     public String artileId;
 
+    public int groupType;
+
     public int itemType;
 
     public String title;

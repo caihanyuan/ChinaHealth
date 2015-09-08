@@ -19,7 +19,7 @@ import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 /**
  * Created by caihanyuan on 15-8-22.
  */
-public class HomepageContentFragment extends Fragment implements PullToRefreshBase.OnRefreshListener {
+public class HomepageContentFragment extends Fragment implements PullToRefreshBase.OnRefreshListener, PullToRefreshBase.OnLastItemVisibleListener {
 
     private final static String TAG = HomepageContentFragment.class.getSimpleName();
 
@@ -55,6 +55,7 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         mViewRoot = inflater.inflate(R.layout.homepages_fragment_layout, container, false);
         mRefreshListView = (PullToRefreshListView) mViewRoot.findViewById(R.id.homepage_refreshview);
         mRefreshListView.setOnRefreshListener(this);
+        mRefreshListView.setOnLastItemVisibleListener(this);
         mRefreshListView.setOnScrollListener(mPauseOnScrollListener);
         mRefreshListView.setAdapter(mAdapter);
         return mViewRoot;
@@ -64,6 +65,7 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     public void onDestroyView() {
         super.onDestroyView();
         LogUtils.d(TAG, "view " + mPageType + " onDestroyView");
+        mRefreshListView.setOnLastItemVisibleListener(null);
         mRefreshListView.setOnScrollListener(null);
         mRefreshListView.setAdapter(null);
     }
@@ -87,6 +89,11 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
 
     @Override
     public void onRefresh(PullToRefreshBase refreshView) {
+
+    }
+
+    @Override
+    public void onLastItemVisible() {
 
     }
 
@@ -120,8 +127,8 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         @Override
         protected void onPostExecute(Void aVoid) {
             if (!isEmpty()) {
-                mAdapter.notifyDataSetChanged();
             }
+            mAdapter.notifyDataSetChanged();
         }
     }
 }

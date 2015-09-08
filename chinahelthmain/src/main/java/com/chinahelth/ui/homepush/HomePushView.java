@@ -3,13 +3,12 @@ package com.chinahelth.ui.homepush;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
+import com.chinahelth.support.utils.LogUtils;
 import com.chinahelth.viewpagerIndicator.PageIndicator;
 
 import java.util.ArrayList;
@@ -96,9 +95,7 @@ public class HomePushView extends FrameLayout {
 
         int widthMeasured = resolveSizeAndState(maxWidth, widthMeasureSpec, childState);
         int heightMeasured = (int) (widthMeasured * ASPECT_RATIO);
-        if (HealthConfig.isDebug) {
-            Log.d(TAG, "onMeasure excute, widthMeasured:" + widthMeasured + " heightMeasured:" + heightMeasured);
-        }
+        LogUtils.d(TAG, "onMeasure excute, widthMeasured:" + widthMeasured + " heightMeasured:" + heightMeasured);
         setMeasuredDimension(widthMeasured, heightMeasured);
 
         count = mMatchParentChildren.size();

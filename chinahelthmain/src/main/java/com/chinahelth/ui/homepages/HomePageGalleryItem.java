@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 public class HomePageGalleryItem extends HomepageBaseItem {
 
-    private ArrayList<ImageView> mImageViews = new ArrayList();
+    private ArrayList<ImageView> mImageViews;
 
     private ViewGroup mImagesContainer;
 
@@ -28,6 +29,7 @@ public class HomePageGalleryItem extends HomepageBaseItem {
 
     @Override
     void initView() {
+        mImageViews = new ArrayList();
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         mItemRoot = layoutInflater.inflate(R.layout.homepages_item_gallery, null, false);
         mTitile = (TextView) mItemRoot.findViewById(R.id.homepage_item_title_text);
@@ -47,7 +49,7 @@ public class HomePageGalleryItem extends HomepageBaseItem {
     @Override
     protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         super.setHomepageItemData(homepageItemBean);
-        if (homepageItemBean.thumbnailUris.length > 0) {
+        if (homepageItemBean.thumbnailUris != null && homepageItemBean.thumbnailUris.length > 0) {
             int length = Math.min(homepageItemBean.thumbnailUris.length, mImageViews.size());
             ImageView imageView = null;
             for (int i = 0; i < mImageViews.size(); i++) {
@@ -55,7 +57,7 @@ public class HomePageGalleryItem extends HomepageBaseItem {
                 if (i < length) {
                     String url = homepageItemBean.thumbnailUris[i];
                     imageView.setVisibility(View.VISIBLE);
-                    ImageLoader.getInstance().displayImage(url, imageView, mDisplayImageOptions, this);
+                    ImageLoader.getInstance().displayImage(url, imageView, HealthConfig.getDefaultDisplayImageOptions(), this);
                 } else {
                     imageView.setVisibility(View.GONE);
                 }

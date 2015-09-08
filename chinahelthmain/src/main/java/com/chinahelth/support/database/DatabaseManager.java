@@ -18,7 +18,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static DatabaseManager mInstance = null;
     private final String CREATE_ARTICLEITEM_TABLE_SQL = "create table " + ArticleItemTable.TABLE_NAME
             + "("
-            + ArticleItemTable.UID + " integer primary key autoincrement,"
+            + ArticleItemTable.UID + " text primary key,"
             + ArticleItemTable.GROUP_TYPE + " integer,"
             + ArticleItemTable.TYPE + " integer,"
             + ArticleItemTable.TITLE + " text,"

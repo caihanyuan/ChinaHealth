@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,7 +24,7 @@ public class HomepageBigpicItem extends HomepageBaseItem {
     @Override
     void initView() {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        mItemRoot = layoutInflater.inflate(R.layout.homepages_item_normal, null, false);
+        mItemRoot = layoutInflater.inflate(R.layout.homepages_item_bigpic, null, false);
         mTitile = (TextView) mItemRoot.findViewById(R.id.homepage_item_title_text);
         mFromText = (TextView) mItemRoot.findViewById(R.id.homepage_item_from_text);
         mCommentText = (TextView) mItemRoot.findViewById(R.id.homepage_item_comment_text);
@@ -34,9 +35,9 @@ public class HomepageBigpicItem extends HomepageBaseItem {
     @Override
     protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         super.setHomepageItemData(homepageItemBean);
-        if (homepageItemBean.thumbnailUris.length > 0) {
+        if (homepageItemBean.thumbnailUris != null && homepageItemBean.thumbnailUris.length > 0) {
             String imgeUri = homepageItemBean.thumbnailUris[0];
-            ImageLoader.getInstance().displayImage(imgeUri, mItemImageView, mDisplayImageOptions, this);
+            ImageLoader.getInstance().displayImage(imgeUri, mItemImageView, HealthConfig.getDefaultDisplayImageOptions(), this);
         }
     }
 }

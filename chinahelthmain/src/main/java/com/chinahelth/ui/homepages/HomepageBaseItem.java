@@ -2,15 +2,13 @@ package com.chinahelth.ui.homepages;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.chinahelth.support.bean.ArticleItemBean;
+import com.chinahelth.support.utils.LogUtils;
 import com.chinahelth.support.utils.TimeUtility;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -37,11 +35,8 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
 
     protected ArticleItemBean mHomepageItemData;
 
-    protected DisplayImageOptions mDisplayImageOptions;
-
     public HomepageBaseItem(Context context) {
         mContext = context;
-        mDisplayImageOptions = HealthConfig.getDefaultDisplayImageOptions();
         initView();
     }
 
@@ -53,7 +48,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
         }
     }
 
-    protected void setTitleRead(boolean isReaded) {
+    public void setTitleRead(boolean isReaded) {
         if (isReaded) {
 
         } else {
@@ -105,6 +100,10 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
         }
     }
 
+    public ArticleItemBean getHomepageItemData() {
+        return mHomepageItemData;
+    }
+
     protected void setHomepageItemData(ArticleItemBean homepageItemBean) {
         mHomepageItemData = homepageItemBean;
         setTitleText(mHomepageItemData.title);
@@ -114,11 +113,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
         setTitleRead(mHomepageItemData.isReaded);
     }
 
-    public ArticleItemBean getHomepageItemData() {
-        return mHomepageItemData;
-    }
-
-    public View getItem() {
+    public View getItemView() {
         return mItemRoot;
     }
 
@@ -128,7 +123,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
 
     @Override
     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-        Log.e(ImageLoader.TAG, "image uri:" + imageUri + "load failed", failReason.getCause());
+        LogUtils.e(ImageLoader.TAG, "image uri:" + imageUri + "load failed", failReason.getCause());
     }
 
     @Override

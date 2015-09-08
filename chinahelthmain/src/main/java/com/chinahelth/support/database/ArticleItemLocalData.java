@@ -20,7 +20,7 @@ public class ArticleItemLocalData {
 
     private final static String TAG = ArticleItemLocalData.class.getSimpleName();
 
-    private int mGroupType = -1;
+    private int mGroupType = 0;
 
     private int mOnceLoadCount = 20;
 
@@ -37,7 +37,7 @@ public class ArticleItemLocalData {
 
     public List<ArticleItemBean> getAriticleItems(int offset) {
         String selectSQL = "";
-        if (mGroupType == -1) {
+        if (mGroupType == 0) {
             selectSQL = "SELECT * FROM " + ArticleItemTable.TABLE_NAME + " " +
                     "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
                     "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
@@ -47,20 +47,22 @@ public class ArticleItemLocalData {
                     "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
                     "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
         }
+
         List<ArticleItemBean> articleItemBeanList = new ArrayList();
         Cursor cursor = getRead().rawQuery(selectSQL, null);
+        int idIndex = cursor.getColumnIndex(ArticleItemTable.UID);
+        int groupTypeIndex = cursor.getColumnIndex(ArticleItemTable.GROUP_TYPE);
+        int typeIndex = cursor.getColumnIndex(ArticleItemTable.TYPE);
+        int titleIndex = cursor.getColumnIndex(ArticleItemTable.TITLE);
+        int fromIndex = cursor.getColumnIndex(ArticleItemTable.SOURCE);
+        int commentNumIndex = cursor.getColumnIndex(ArticleItemTable.COMMENT_NUMS);
+        int publishTimeIndex = cursor.getColumnIndex(ArticleItemTable.PUBLISH_TIME);
+        int thumbnailIndex = cursor.getColumnIndex(ArticleItemTable.THUMBNAIL_URIS);
+        int isReadedIndex = cursor.getColumnIndex(ArticleItemTable.IS_READED);
         while (cursor.moveToNext()) {
-            int idIndex = cursor.getColumnIndex(ArticleItemTable.UID);
-            int typeIndex = cursor.getColumnIndex(ArticleItemTable.TYPE);
-            int titleIndex = cursor.getColumnIndex(ArticleItemTable.TITLE);
-            int fromIndex = cursor.getColumnIndex(ArticleItemTable.SOURCE);
-            int commentNumIndex = cursor.getColumnIndex(ArticleItemTable.COMMENT_NUMS);
-            int publishTimeIndex = cursor.getColumnIndex(ArticleItemTable.PUBLISH_TIME);
-            int thumbnailIndex = cursor.getColumnIndex(ArticleItemTable.THUMBNAIL_URIS);
-            int isReadedIndex = cursor.getColumnIndex(ArticleItemTable.IS_READED);
-
             ArticleItemBean itemBean = new ArticleItemBean();
             itemBean.artileId = cursor.getString(idIndex);
+            itemBean.groupType = cursor.getInt(groupTypeIndex);
             itemBean.itemType = cursor.getInt(typeIndex);
             itemBean.title = cursor.getString(titleIndex);
             itemBean.from = cursor.getString(fromIndex);
@@ -69,13 +71,15 @@ public class ArticleItemLocalData {
             itemBean.isReaded = cursor.getInt(isReadedIndex) == 0 ? false : true;
             String uriText = cursor.getString(thumbnailIndex);
             try {
-                JSONArray jsonArray = new JSONArray(uriText);
-                int length = jsonArray.length();
-                String[] thumbnailUris = new String[length];
-                for (int i = 0; i < length; i++) {
-                    thumbnailUris[i] = jsonArray.getString(i);
+                if (uriText != null) {
+                    JSONArray jsonArray = new JSONArray(uriText);
+                    int length = jsonArray.length();
+                    String[] thumbnailUris = new String[length];
+                    for (int i = 0; i < length; i++) {
+                        thumbnailUris[i] = jsonArray.getString(i);
+                    }
+                    itemBean.thumbnailUris = thumbnailUris;
                 }
-                itemBean.thumbnailUris = thumbnailUris;
             } catch (JSONException e) {
                 LogUtils.e(TAG, "json parser error:", e);
             }

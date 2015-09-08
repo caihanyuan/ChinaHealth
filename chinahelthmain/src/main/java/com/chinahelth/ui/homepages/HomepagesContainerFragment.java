@@ -5,13 +5,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
+import com.chinahelth.support.utils.LogUtils;
 import com.chinahelth.viewpagerIndicator.TabPageIndicator;
 
 /**
@@ -56,9 +55,7 @@ public class HomepagesContainerFragment extends Fragment {
     }
 
     private void initView(View container) {
-        if (HealthConfig.isDebug) {
-            Log.d(TAG, "initVeiw");
-        }
+        LogUtils.d(TAG, "initVeiw");
         mViewPager = (ViewPager) container.findViewById(R.id.homepages_viewpager);
         mPageIndicator = (TabPageIndicator) container.findViewById(R.id.homepages_tabindicator);
         mViewPager.setAdapter(new HomepagesAdapter(getFragmentManager()));
