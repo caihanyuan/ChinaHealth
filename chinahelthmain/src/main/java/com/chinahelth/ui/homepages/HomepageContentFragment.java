@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import com.chinahelth.R;
 import com.chinahelth.support.lib.MyAsyncTask;
@@ -15,6 +16,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by caihanyuan on 15-8-22.
@@ -35,7 +38,9 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
 
     public int mPageType = -1;
 
-    public boolean mDataInit = false;
+    private boolean mDataInit = false;
+
+    private AtomicInteger mLocalTaskCount = new AtomicInteger(0);
 
     public static HomepageContentFragment newInstace(int pageType) {
         HomepageContentFragment fragment = new HomepageContentFragment();
@@ -82,7 +87,7 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     protected void initData() {
         if (!mDataInit) {
             LogUtils.d(TAG, "view " + mPageType + " initData");
-            new LocalDataAccessTask().executeOnDatabase();
+            executeLocalDataAccessTask(false);
             mDataInit = true;
         }
     }
@@ -94,7 +99,10 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
 
     @Override
     public void onLastItemVisible() {
-
+        LogUtils.d(TAG, "listview scroll to last item");
+        if (!isLocalAccessTaskBusy()) {
+            executeLocalDataAccessTask(true);
+        }
     }
 
     private void setPauseScrollListener(AbsListView.OnScrollListener customListener) {
@@ -110,9 +118,31 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         return mAdapter.isEmpty();
     }
 
+    private boolean isLocalAccessTaskBusy() {
+        int taskCount = mLocalTaskCount.get();
+        return taskCount != 0;
+    }
+
+    private void executeLocalDataAccessTask(boolean manual) {
+        new LocalDataAccessTask(manual).executeOnDatabase();
+    }
+
     private class LocalDataAccessTask extends MyAsyncTask<Void, Void, Void> {
+
+        private boolean mManual = false;
+
+        private boolean mDataChange = false;
+
+        public LocalDataAccessTask() {
+        }
+
+        public LocalDataAccessTask(boolean manual) {
+            mManual = manual;
+        }
+
         @Override
         protected void onPreExecute() {
+            mLocalTaskCount.getAndIncrement();
             if (isEmpty()) {
 
             }
@@ -120,15 +150,20 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
 
         @Override
         protected Void doInBackground(Void... params) {
-            mLastOffset = mAdapter.getLocalData(mLastOffset);
+            int offset = mAdapter.getLocalData(mLastOffset);
+            mDataChange = (offset != mLastOffset);
+            mLastOffset = offset;
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mLocalTaskCount.getAndDecrement();
             if (!isEmpty()) {
             }
-            mAdapter.notifyDataSetChanged();
+            if (mDataChange) {
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 }
