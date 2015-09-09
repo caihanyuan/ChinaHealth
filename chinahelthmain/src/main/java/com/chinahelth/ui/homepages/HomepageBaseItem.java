@@ -63,8 +63,13 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
     }
 
     private void setCommentNumText(int nums) {
-        String comment = nums + mContext.getResources().getString(R.string.health_comment);
-        setCommentNumText(comment);
+        if (nums == 0) {
+            mCommentText.setVisibility(View.GONE);
+        } else {
+            mCommentText.setVisibility(View.VISIBLE);
+            String comment = nums + mContext.getResources().getString(R.string.health_comment);
+            setCommentNumText(comment);
+        }
     }
 
     private void setCommentNumText(CharSequence commentNums) {

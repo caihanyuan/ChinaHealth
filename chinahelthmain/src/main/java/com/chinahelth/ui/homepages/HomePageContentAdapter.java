@@ -36,6 +36,7 @@ public class HomePageContentAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(mContext);
         mPageType = pageType;
         mLocalData = new ArticleItemLocalData(mPageType);
+        mLocalData.setOnceLoadCount(5);
     }
 
     @Override
@@ -65,6 +66,7 @@ public class HomePageContentAdapter extends BaseAdapter {
         } else {
             pageItem = (HomepageBaseItem) convertView.getTag();
             if (pageItem.getClass() != getItemClassType(articleItemBean)) {
+                LogUtils.d(TAG, "reCreate HompageBaseItem because item type different");
                 pageItem = createItemByType(articleItemBean);
                 convertView = pageItem.getItemView();
                 convertView.setTag(pageItem);
@@ -74,10 +76,16 @@ public class HomePageContentAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public int getLocalData(int offset) {
-        List<ArticleItemBean> articleItemBeans = mLocalData.getAriticleItems(offset);
+    public ArticleItemBean getLastItemBean() {
+        ArticleItemBean articleItemBean = null;
+        articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.getLast();
+        return articleItemBean;
+    }
+
+    public List<ArticleItemBean> getLocalData(ArticleItemBean itemBean) {
+        List<ArticleItemBean> articleItemBeans = mLocalData.getAriticleItems(itemBean);
         mItemsDataList.addAll(articleItemBeans);
-        return offset + articleItemBeans.size();
+        return articleItemBeans;
     }
 
     private HomepageBaseItem createItemByType(ArticleItemBean articleItemBean) {

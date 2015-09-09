@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.chinahelth.R;
+import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.lib.MyAsyncTask;
 import com.chinahelth.support.utils.LogUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -17,6 +17,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -25,8 +26,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HomepageContentFragment extends Fragment implements PullToRefreshBase.OnRefreshListener, PullToRefreshBase.OnLastItemVisibleListener {
 
     private final static String TAG = HomepageContentFragment.class.getSimpleName();
-
-    protected int mLastOffset = 0;
 
     protected View mViewRoot;
 
@@ -87,7 +86,7 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     protected void initData() {
         if (!mDataInit) {
             LogUtils.d(TAG, "view " + mPageType + " initData");
-            executeLocalDataAccessTask(false);
+            executeLocalDataAccessTask();
             mDataInit = true;
         }
     }
@@ -101,7 +100,7 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     public void onLastItemVisible() {
         LogUtils.d(TAG, "listview scroll to last item");
         if (!isLocalAccessTaskBusy()) {
-            executeLocalDataAccessTask(true);
+            executeLocalDataAccessTask();
         }
     }
 
@@ -123,45 +122,33 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         return taskCount != 0;
     }
 
-    private void executeLocalDataAccessTask(boolean manual) {
-        new LocalDataAccessTask(manual).executeOnDatabase();
+    private void executeLocalDataAccessTask() {
+        new LocalDataReadTask().executeOnDatabase(mAdapter.getLastItemBean());
     }
 
-    private class LocalDataAccessTask extends MyAsyncTask<Void, Void, Void> {
-
-        private boolean mManual = false;
-
-        private boolean mDataChange = false;
-
-        public LocalDataAccessTask() {
-        }
-
-        public LocalDataAccessTask(boolean manual) {
-            mManual = manual;
-        }
+    /**
+     * Load data from database only which contains enough items to show<br>
+     * <p/>
+     * <br>params:ArticleItemBean  the last item bean show on view
+     * <br>result:List<ArticleItemBean> items' data from database
+     */
+    private class LocalDataReadTask extends MyAsyncTask<ArticleItemBean, Void, List<ArticleItemBean>> {
 
         @Override
         protected void onPreExecute() {
             mLocalTaskCount.getAndIncrement();
-            if (isEmpty()) {
-
-            }
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
-            int offset = mAdapter.getLocalData(mLastOffset);
-            mDataChange = (offset != mLastOffset);
-            mLastOffset = offset;
-            return null;
+        protected List<ArticleItemBean> doInBackground(ArticleItemBean... params) {
+            ArticleItemBean lastItemBean = params.length != 0 ? params[0] : null;
+            return mAdapter.getLocalData(lastItemBean);
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(List<ArticleItemBean> itemBeans) {
             mLocalTaskCount.getAndDecrement();
-            if (!isEmpty()) {
-            }
-            if (mDataChange) {
+            if (itemBeans.size() > 0) {
                 mAdapter.notifyDataSetChanged();
             }
         }

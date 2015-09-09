@@ -5,7 +5,7 @@ package com.chinahelth.support.bean;
  */
 public class ArticleItemBean {
 
-    public String artileId;
+    public String articleId;
 
     public int groupType;
 
