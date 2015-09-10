@@ -70,6 +70,7 @@ public class HealthMainActivity extends SlidingFragmentActivity {
     }
 
     private void initView() {
+        getActionBar().hide();
         configSlidingMenu();
         setBehindContentView(R.layout.slidingmenu_container_layout);
         setContentView(R.layout.health_main_container_layout);
