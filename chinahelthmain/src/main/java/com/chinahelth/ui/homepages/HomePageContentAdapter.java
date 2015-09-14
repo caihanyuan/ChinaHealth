@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ArticleItemType;
 import com.chinahelth.support.database.ArticleItemLocalData;
+import com.chinahelth.support.remoteserver.ArticleItemRemoteData;
 import com.chinahelth.support.utils.LogUtils;
 
 import java.util.LinkedList;
@@ -29,6 +30,8 @@ public class HomePageContentAdapter extends BaseAdapter {
 
     private ArticleItemLocalData mLocalData;
 
+    private ArticleItemRemoteData mRemtoeData;
+
     private LinkedList<ArticleItemBean> mItemsDataList = new LinkedList();
 
     public HomePageContentAdapter(Context context, int pageType) {
@@ -36,6 +39,7 @@ public class HomePageContentAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(mContext);
         mPageType = pageType;
         mLocalData = new ArticleItemLocalData(mPageType);
+        mRemtoeData = new ArticleItemRemoteData(mPageType);
     }
 
     @Override
@@ -82,7 +86,14 @@ public class HomePageContentAdapter extends BaseAdapter {
         return articleItemBeans;
     }
 
-    public boolean hasMoreLocalData(){
+    public List<ArticleItemBean> getRemoteData(String dataStatus) {
+        ArticleItemBean lastItemBean = getFirstItemBean();
+        List<ArticleItemBean> articleItemBeans = mRemtoeData.getItemDatas(lastItemBean, dataStatus);
+        mItemsDataList.addAll(0, articleItemBeans);
+        return articleItemBeans;
+    }
+
+    public boolean hasMoreLocalData() {
         ArticleItemBean lastItemBean = getLastItemBean();
         return mLocalData.hasMoreItemData(lastItemBean);
     }
@@ -90,6 +101,12 @@ public class HomePageContentAdapter extends BaseAdapter {
     private ArticleItemBean getLastItemBean() {
         ArticleItemBean articleItemBean = null;
         articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.getLast();
+        return articleItemBean;
+    }
+
+    private ArticleItemBean getFirstItemBean() {
+        ArticleItemBean articleItemBean = null;
+        articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.getFirst();
         return articleItemBean;
     }
 

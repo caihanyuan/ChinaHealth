@@ -26,6 +26,14 @@ public class HealthConfig {
 
     private final static int IAMGE_CACHE_SIZE = 50 * 1024 * 1024;
 
+//    private final static String SERVER_HOST_DOMAIN = "www.chinahealth.com";
+
+    private final static String SERVER_HOST_DOMAIN = "172.16.136.113";
+
+    private final static int SERVER_HOST_PROT = 8080;
+
+    public final static String SERVER_HOST_ROOT_URL = "http://" + SERVER_HOST_DOMAIN + ":" + SERVER_HOST_PROT + "/ChinaHealthServer/";
+
     private static DisplayImageOptions displayImageOptions = null;
 
     public static DisplayImageOptions getDefaultDisplayImageOptions() {

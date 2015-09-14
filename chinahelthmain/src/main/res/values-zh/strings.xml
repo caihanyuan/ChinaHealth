@@ -6,6 +6,7 @@
 
     <!-- error tip-->
     <string name="connect_timeout_error">连接超时</string>
+    <string name="internet_disconnect_error">网络数据未连接</string>
 
     <!-- sliding menu -->
     <string name="sliding_menu_account_not_login">未登录</string>

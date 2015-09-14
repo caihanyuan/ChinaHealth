@@ -87,11 +87,11 @@ public class JavaHttpUtility {
         try {
             URL url = new URL(urlAddress);
             Proxy proxy = getProxy();
-            HttpsURLConnection uRLConnection;
+            HttpURLConnection uRLConnection;
             if (proxy != null) {
-                uRLConnection = (HttpsURLConnection) url.openConnection(proxy);
+                uRLConnection = (HttpURLConnection) url.openConnection(proxy);
             } else {
-                uRLConnection = (HttpsURLConnection) url.openConnection();
+                uRLConnection = (HttpURLConnection) url.openConnection();
             }
 
             uRLConnection.setDoInput(true);
