@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- common -->
-    <string name="helth_app_name">国学养生</string>
+    <string name="helth_app_name">测试</string>
     <string name="health_comment">评论</string>
 
     <!-- error tip-->

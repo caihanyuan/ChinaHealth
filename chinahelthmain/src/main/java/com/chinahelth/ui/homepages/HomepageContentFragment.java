@@ -7,14 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.chinahelth.R;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ServerParam;
 import com.chinahelth.support.lib.MyAsyncTask;
 import com.chinahelth.support.utils.LogUtils;
-import com.chinahelth.support.utils.Utility;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -65,8 +63,8 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         mRefreshListView = (PullToRefreshListView) mViewRoot.findViewById(R.id.homepage_refreshview);
         mRefreshListView.setOnRefreshListener(this);
         mRefreshListView.setOnLastItemVisibleListener(this);
-        mRefreshListView.setOnScrollListener(mPauseOnScrollListener);
         mRefreshListView.setAdapter(mAdapter);
+        setPauseScrollListener(null);
         return mViewRoot;
     }
 
@@ -91,14 +89,10 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     protected void initData() {
         if (!mDataInit) {
             LogUtils.d(TAG, "view " + mPageType + " initData");
-            if (Utility.isNetConnected(getActivity())) {
-                //execute remote data access task
-                if (!isRemoteAccessTaskBusy()) {
-                    executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_NEWER);
-                }
-            } else {
-                //let users know that net work isn't connected
-                Toast.makeText(getActivity(), R.string.internet_disconnect_error, Toast.LENGTH_LONG).show();
+            //execute remote data access task
+            if (!isRemoteAccessTaskBusy()) {
+                mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+                mRefreshListView.setRefreshing(false);
             }
             if (!isLocalAccessTaskBusy()) {
                 executeLocalDataReadTask();
@@ -109,14 +103,11 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
 
     @Override
     public void onRefresh(PullToRefreshBase refreshView) {
-        if (Utility.isNetConnected(getActivity())) {
-            //execute remote data access task
-            if (!isRemoteAccessTaskBusy()) {
+        if (!isRemoteAccessTaskBusy()) {
+            if (mRefreshListView.getMode() == PullToRefreshBase.Mode.PULL_FROM_START)
                 executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_NEWER);
-            }
-        } else {
-            //let users know that net work isn't connected
-            Toast.makeText(getActivity(), R.string.internet_disconnect_error, Toast.LENGTH_LONG).show();
+            else if (mRefreshListView.getMode() == PullToRefreshBase.Mode.PULL_FROM_END)
+                executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_OLDER);
         }
     }
 
@@ -131,8 +122,8 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
             //load data from remote server
             if (!isRemoteAccessTaskBusy()) {
                 LogUtils.d(TAG, "get older data from remote server, when scroll to last item");
+                mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
                 mRefreshListView.setRefreshing();
-                executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_OLDER);
             }
         }
     }
@@ -166,6 +157,12 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     }
 
     private void executeRemoteDataReadTask(String dataStatus) {
+        if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
+            mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        } else {
+            mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+        }
+        mRefreshListView.setRefreshing();
         mRemoteTaskCount.getAndIncrement();
         new RemoteDataReadTask().executeOnIO(dataStatus);
     }
@@ -190,6 +187,7 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         protected void onPostExecute(List<ArticleItemBean> itemBeans) {
             mLocalTaskCount.getAndDecrement();
             if (itemBeans.size() > 0) {
+                mAdapter.addAll(itemBeans);
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -199,6 +197,9 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
      * load data from remote server
      */
     private class RemoteDataReadTask extends MyAsyncTask<String, Void, List<ArticleItemBean>> {
+
+        private String mDataStatus = ServerParam.VALUES.DATA_STATUS_NEWER;
+
         @Override
         protected void onPreExecute() {
         }
@@ -206,9 +207,10 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         @Override
         protected List<ArticleItemBean> doInBackground(String... params) {
             String dataStatus = params[0];
-            if (dataStatus == ServerParam.VALUES.DATA_STATUS_NEWER || dataStatus == ServerParam.VALUES.DATA_STATUS_OLDER)
+            if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER) || dataStatus.equals(ServerParam.VALUES.DATA_STATUS_OLDER)) {
+                mDataStatus = dataStatus;
                 return mAdapter.getRemoteData(dataStatus);
-            else {
+            } else {
                 cancel(true);
                 return null;
             }
@@ -217,8 +219,14 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         @Override
         protected void onPostExecute(List<ArticleItemBean> itemBeans) {
             mRefreshListView.onRefreshComplete();
+            mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
             mRemoteTaskCount.getAndDecrement();
             if (itemBeans != null && itemBeans.size() > 0) {
+                if (mDataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
+                    mAdapter.addAll(0, itemBeans);
+                } else {
+                    mAdapter.addAll(itemBeans);
+                }
                 mAdapter.notifyDataSetChanged();
             }
         }

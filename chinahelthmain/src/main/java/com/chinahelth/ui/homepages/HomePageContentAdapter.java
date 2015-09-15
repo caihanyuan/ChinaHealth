@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ArticleItemType;
+import com.chinahelth.support.bean.ServerParam;
 import com.chinahelth.support.database.ArticleItemLocalData;
 import com.chinahelth.support.remoteserver.ArticleItemRemoteData;
 import com.chinahelth.support.utils.LogUtils;
@@ -82,20 +83,31 @@ public class HomePageContentAdapter extends BaseAdapter {
     public List<ArticleItemBean> getLocalData() {
         ArticleItemBean lastItemBean = getLastItemBean();
         List<ArticleItemBean> articleItemBeans = mLocalData.getItemDatas(lastItemBean);
-        mItemsDataList.addAll(articleItemBeans);
         return articleItemBeans;
     }
 
     public List<ArticleItemBean> getRemoteData(String dataStatus) {
-        ArticleItemBean lastItemBean = getFirstItemBean();
-        List<ArticleItemBean> articleItemBeans = mRemtoeData.getItemDatas(lastItemBean, dataStatus);
-        mItemsDataList.addAll(0, articleItemBeans);
+        ArticleItemBean itemBean = null;
+        if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
+            itemBean = getFirstItemBean();
+        } else {
+            itemBean = getLastItemBean();
+        }
+        List<ArticleItemBean> articleItemBeans = mRemtoeData.getItemDatas(itemBean, dataStatus);
         return articleItemBeans;
     }
 
     public boolean hasMoreLocalData() {
         ArticleItemBean lastItemBean = getLastItemBean();
         return mLocalData.hasMoreItemData(lastItemBean);
+    }
+
+    void addAll(int position, List<ArticleItemBean> articleItemBeans) {
+        mItemsDataList.addAll(position, articleItemBeans);
+    }
+
+    void addAll(List<ArticleItemBean> articleItemBeans) {
+        mItemsDataList.addAll(articleItemBeans);
     }
 
     private ArticleItemBean getLastItemBean() {

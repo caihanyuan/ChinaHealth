@@ -29,22 +29,22 @@ public class ArticleItemRemoteData {
         mGroupType = groupType;
     }
 
-    public List<ArticleItemBean> getItemDatas(ArticleItemBean lastItemBean, String dataStutus) {
-        List<ArticleItemBean> itemBeans = new ArrayList();
+    public List<ArticleItemBean> getItemDatas(ArticleItemBean itemBean, String dataStutus) {
         Map<String, String> params = new HashMap();
         params.put(ServerParam.DATA_STATUS, dataStutus);
         JSONObject paramJson = new JSONObject();
         try {
             paramJson.put(ArticleItemTable.GROUP_TYPE, mGroupType);
-            if (lastItemBean != null) {
-                paramJson.put(ArticleItemTable.UID, lastItemBean.articleId);
-                paramJson.put(ArticleItemTable.PUBLISH_TIME, lastItemBean.publishTime);
+            if (itemBean != null) {
+                paramJson.put(ArticleItemTable.UID, itemBean.articleId);
+                paramJson.put(ArticleItemTable.PUBLISH_TIME, itemBean.publishTime);
             }
             params.put(ServerParam.REQUEST_JSON, paramJson.toString());
         } catch (JSONException e) {
             LogUtils.e(TAG, "json object create error", e);
         }
 
+        List<ArticleItemBean> itemBeans = new ArrayList();
         String url = HealthConfig.SERVER_HOST_ROOT_URL + ServerParam.ARTICLE_ITEM_URL;
         String itemDatasJson = HttpUtility.getInstance().executeNormalTask(HttpMethod.Post, url, params);
         LogUtils.d(TAG, "item datas from server: " + itemDatasJson);
