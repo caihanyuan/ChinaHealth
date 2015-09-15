@@ -22,7 +22,7 @@ public class ArticleItemLocalData {
 
     private int mGroupType = 0;
 
-    private int mOnceLoadCount = 20;
+    private int mOnceLoadCount = 10;
 
     public ArticleItemLocalData() {
     }
@@ -35,27 +35,14 @@ public class ArticleItemLocalData {
         mOnceLoadCount = onceLoadCount;
     }
 
-    public List<ArticleItemBean> getAriticleItems(ArticleItemBean lastItemBean) {
-        int offset = 0;
-        String selectSQL = "";
-        String whereCondition = "";
-        if (lastItemBean != null) {
-            whereCondition = ArticleItemTable.PUBLISH_TIME + "<=" + lastItemBean.publishTime + " AND " + ArticleItemTable.UID + "<>'" + lastItemBean.articleId + "' ";
-        }
-        if (mGroupType == 0) {
-            whereCondition = whereCondition == "" ? whereCondition : ("WHERE " + whereCondition);
-            selectSQL = "SELECT * FROM " + ArticleItemTable.TABLE_NAME + " " +
-                    whereCondition +
-                    "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
-                    "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
-        } else {
-            whereCondition = whereCondition == "" ? ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " ") : ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " AND " + whereCondition);
-            selectSQL = "SELECT * FROM " + ArticleItemTable.TABLE_NAME + " " +
-                    whereCondition +
-                    "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
-                    "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
-        }
-
+    /**
+     * get data's in database that pusblis_time before last item in the list view
+     *
+     * @param lastItemBean
+     * @return
+     */
+    public List<ArticleItemBean> getItemDatas(ArticleItemBean lastItemBean) {
+        String selectSQL = createTimeBeforeSelectSQL(lastItemBean);
         List<ArticleItemBean> articleItemBeanList = new ArrayList();
         Cursor cursor = getRead().rawQuery(selectSQL, null);
         int idIndex = cursor.getColumnIndex(ArticleItemTable.UID);
@@ -95,6 +82,57 @@ public class ArticleItemLocalData {
         }
         cursor.close();
         return articleItemBeanList;
+    }
+
+    /**
+     * if there's more items in database that publish_time before last item in the list view
+     *
+     * @param lastItemBean
+     * @return
+     */
+    public boolean hasMoreItemData(ArticleItemBean lastItemBean) {
+        String selectSQL = createTimeBeforeCountSelectSQL(lastItemBean);
+        Cursor cursor = getRead().rawQuery(selectSQL, null);
+        return cursor.moveToNext();
+    }
+
+    private String createTimeBeforeSelectSQL(ArticleItemBean lastItemBean) {
+        int offset = 0;
+        String selectSQL = "";
+        String whereCondition = "";
+        if (lastItemBean != null) {
+            whereCondition = ArticleItemTable.PUBLISH_TIME + "<=" + lastItemBean.publishTime + " AND " + ArticleItemTable.UID + "<>'" + lastItemBean.articleId + "' ";
+        }
+        if (mGroupType == 0) {
+            whereCondition = whereCondition == "" ? whereCondition : ("WHERE " + whereCondition);
+            selectSQL = "SELECT * FROM " + ArticleItemTable.TABLE_NAME + " " +
+                    whereCondition +
+                    "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
+                    "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
+        } else {
+            whereCondition = whereCondition == "" ? ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " ") : ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " AND " + whereCondition);
+            selectSQL = "SELECT * FROM " + ArticleItemTable.TABLE_NAME + " " +
+                    whereCondition +
+                    "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
+                    "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
+        }
+        return selectSQL;
+    }
+
+    private String createTimeBeforeCountSelectSQL(ArticleItemBean lastItemBean) {
+        String selectSQL = "";
+        String whereCondition = "";
+        if (lastItemBean != null) {
+            whereCondition = ArticleItemTable.PUBLISH_TIME + "<=" + lastItemBean.publishTime + " AND " + ArticleItemTable.UID + "<>'" + lastItemBean.articleId + "' ";
+        }
+        if (mGroupType == 0) {
+            whereCondition = whereCondition == "" ? whereCondition : ("WHERE " + whereCondition);
+            selectSQL = "SELECT COUNT(1) FROM " + ArticleItemTable.TABLE_NAME + " " + whereCondition;
+        } else {
+            whereCondition = whereCondition == "" ? ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " ") : ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " AND " + whereCondition);
+            selectSQL = "SELECT COUNT(1) FROM " + ArticleItemTable.TABLE_NAME + " " + whereCondition;
+        }
+        return selectSQL;
     }
 
     private SQLiteDatabase getRead() {

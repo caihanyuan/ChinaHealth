@@ -36,7 +36,6 @@ public class HomePageContentAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(mContext);
         mPageType = pageType;
         mLocalData = new ArticleItemLocalData(mPageType);
-        mLocalData.setOnceLoadCount(5);
     }
 
     @Override
@@ -76,16 +75,22 @@ public class HomePageContentAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public ArticleItemBean getLastItemBean() {
+    public List<ArticleItemBean> getLocalData() {
+        ArticleItemBean lastItemBean = getLastItemBean();
+        List<ArticleItemBean> articleItemBeans = mLocalData.getItemDatas(lastItemBean);
+        mItemsDataList.addAll(articleItemBeans);
+        return articleItemBeans;
+    }
+
+    public boolean hasMoreLocalData(){
+        ArticleItemBean lastItemBean = getLastItemBean();
+        return mLocalData.hasMoreItemData(lastItemBean);
+    }
+
+    private ArticleItemBean getLastItemBean() {
         ArticleItemBean articleItemBean = null;
         articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.getLast();
         return articleItemBean;
-    }
-
-    public List<ArticleItemBean> getLocalData(ArticleItemBean itemBean) {
-        List<ArticleItemBean> articleItemBeans = mLocalData.getAriticleItems(itemBean);
-        mItemsDataList.addAll(articleItemBeans);
-        return articleItemBeans;
     }
 
     private HomepageBaseItem createItemByType(ArticleItemBean articleItemBean) {

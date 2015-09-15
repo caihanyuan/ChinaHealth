@@ -12,6 +12,7 @@ import com.chinahelth.R;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.lib.MyAsyncTask;
 import com.chinahelth.support.utils.LogUtils;
+import com.chinahelth.support.utils.Utility;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -28,17 +29,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HomepageContentFragment extends Fragment implements PullToRefreshBase.OnRefreshListener, PullToRefreshBase.OnLastItemVisibleListener {
 
     private final static String TAG = HomepageContentFragment.class.getSimpleName();
-
-    protected View mViewRoot;
-
-    protected PullToRefreshListView mRefreshListView;
-
-    protected HomePageContentAdapter mAdapter;
-
-    protected PauseOnScrollListener mPauseOnScrollListener;
-
     public int mPageType = -1;
-
+    protected View mViewRoot;
+    protected PullToRefreshListView mRefreshListView;
+    protected HomePageContentAdapter mAdapter;
+    protected PauseOnScrollListener mPauseOnScrollListener;
     private boolean mDataInit = false;
 
     private AtomicInteger mLocalTaskCount = new AtomicInteger(0);
@@ -88,7 +83,12 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     protected void initData() {
         if (!mDataInit) {
             LogUtils.d(TAG, "view " + mPageType + " initData");
-            executeLocalDataAccessTask();
+            if (Utility.isNetConnected(getActivity())) {
+                //execute remote data access task
+            } else {
+                //let users know that net work isn't connected
+            }
+            executeLocalDataReadTask();
             mDataInit = true;
         }
     }
@@ -100,9 +100,13 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
 
     @Override
     public void onLastItemVisible() {
-        LogUtils.d(TAG, "listview scroll to last item");
-        if (!isLocalAccessTaskBusy()) {
-            executeLocalDataAccessTask();
+        if (mAdapter.hasMoreLocalData()) {
+            if (!isLocalAccessTaskBusy()) {
+                LogUtils.d(TAG, "get older data from database, when scroll to last item");
+                executeLocalDataReadTask();
+            }
+        } else {
+            //load data from remote server
         }
     }
 
@@ -124,8 +128,9 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         return taskCount != 0;
     }
 
-    private void executeLocalDataAccessTask() {
-        new LocalDataReadTask().executeOnDatabase(mAdapter.getLastItemBean());
+    private void executeLocalDataReadTask() {
+        mLocalTaskCount.getAndIncrement();
+        new LocalDataReadTask().executeOnDatabase();
     }
 
     /**
@@ -134,17 +139,14 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
      * <br>params:ArticleItemBean  the last item bean show on view
      * <br>result:List<ArticleItemBean> items' data from database
      */
-    private class LocalDataReadTask extends MyAsyncTask<ArticleItemBean, Void, List<ArticleItemBean>> {
-
+    private class LocalDataReadTask extends MyAsyncTask<Void, Void, List<ArticleItemBean>> {
         @Override
         protected void onPreExecute() {
-            mLocalTaskCount.getAndIncrement();
         }
 
         @Override
-        protected List<ArticleItemBean> doInBackground(ArticleItemBean... params) {
-            ArticleItemBean lastItemBean = params.length != 0 ? params[0] : null;
-            return mAdapter.getLocalData(lastItemBean);
+        protected List<ArticleItemBean> doInBackground(Void... params) {
+            return mAdapter.getLocalData();
         }
 
         @Override
