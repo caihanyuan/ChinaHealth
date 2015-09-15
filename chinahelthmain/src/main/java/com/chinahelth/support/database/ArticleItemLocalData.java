@@ -93,7 +93,9 @@ public class ArticleItemLocalData {
     public boolean hasMoreItemData(ArticleItemBean lastItemBean) {
         String selectSQL = createTimeBeforeCountSelectSQL(lastItemBean);
         Cursor cursor = getRead().rawQuery(selectSQL, null);
-        return cursor.moveToNext();
+        cursor.moveToFirst();
+        int itemCount = cursor.getInt(0);
+        return itemCount != 0;
     }
 
     private String createTimeBeforeSelectSQL(ArticleItemBean lastItemBean) {

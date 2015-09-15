@@ -16,6 +16,7 @@
 
     <!-- error tip-->
     <string name="connect_timeout_error">time out of connection</string>
+    <string name="internet_disconnect_error">internet disconnected</string>
 
     <!-- sliding menu -->
     <string name="sliding_menu_account_not_login">not login</string>

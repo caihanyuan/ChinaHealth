@@ -6,7 +6,7 @@ package com.chinahelth.support.database.table;
  */
 public class ArticleItemTable {
 
-    public static final String TABLE_NAME = "ARTILE_ITEM";
+    public static final String TABLE_NAME = "article_item";
 
     public static final String UID = "uid";
 
