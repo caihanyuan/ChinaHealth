@@ -19,6 +19,8 @@ import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Created by caihanyuan on 15-8-22.
  */
