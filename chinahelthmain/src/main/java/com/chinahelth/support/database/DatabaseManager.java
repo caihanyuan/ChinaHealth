@@ -19,14 +19,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private final String CREATE_ARTICLEITEM_TABLE_SQL = "create table " + ArticleItemTable.TABLE_NAME
             + "("
             + ArticleItemTable.UID + " text primary key,"
-            + ArticleItemTable.GROUP_TYPE + " integer,"
+            + ArticleItemTable.GROUP_TYPE + " integer default 0,"
             + ArticleItemTable.TYPE + " integer,"
             + ArticleItemTable.TITLE + " text,"
             + ArticleItemTable.SOURCE + " text,"
-            + ArticleItemTable.COMMENT_NUMS + " integer,"
+            + ArticleItemTable.COMMENT_NUMS + " integer default 0,"
             + ArticleItemTable.PUBLISH_TIME + " integer,"
             + ArticleItemTable.THUMBNAIL_URIS + " text,"
-            + ArticleItemTable.IS_READED + " integer"
+            + ArticleItemTable.IS_READED + " integer default 0"
             + ");";
 
     private DatabaseManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

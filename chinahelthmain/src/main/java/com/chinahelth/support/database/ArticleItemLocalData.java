@@ -35,15 +35,23 @@ public class ArticleItemLocalData {
         mOnceLoadCount = onceLoadCount;
     }
 
-    public List<ArticleItemBean> getAriticleItems(int offset) {
+    public List<ArticleItemBean> getAriticleItems(ArticleItemBean lastItemBean) {
+        int offset = 0;
         String selectSQL = "";
+        String whereCondition = "";
+        if (lastItemBean != null) {
+            whereCondition = ArticleItemTable.PUBLISH_TIME + "<=" + lastItemBean.publishTime + " AND " + ArticleItemTable.UID + "<>'" + lastItemBean.articleId + "' ";
+        }
         if (mGroupType == 0) {
+            whereCondition = whereCondition == "" ? whereCondition : ("WHERE " + whereCondition);
             selectSQL = "SELECT * FROM " + ArticleItemTable.TABLE_NAME + " " +
+                    whereCondition +
                     "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
                     "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
         } else {
+            whereCondition = whereCondition == "" ? ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " ") : ("WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " AND " + whereCondition);
             selectSQL = "SELECT * FROM " + ArticleItemTable.TABLE_NAME + " " +
-                    "WHERE " + ArticleItemTable.GROUP_TYPE + "=" + mGroupType + " " +
+                    whereCondition +
                     "ORDER BY " + ArticleItemTable.PUBLISH_TIME + " DESC " +
                     "LIMIT " + mOnceLoadCount + " OFFSET " + offset;
         }
@@ -61,7 +69,7 @@ public class ArticleItemLocalData {
         int isReadedIndex = cursor.getColumnIndex(ArticleItemTable.IS_READED);
         while (cursor.moveToNext()) {
             ArticleItemBean itemBean = new ArticleItemBean();
-            itemBean.artileId = cursor.getString(idIndex);
+            itemBean.articleId = cursor.getString(idIndex);
             itemBean.groupType = cursor.getInt(groupTypeIndex);
             itemBean.itemType = cursor.getInt(typeIndex);
             itemBean.title = cursor.getString(titleIndex);

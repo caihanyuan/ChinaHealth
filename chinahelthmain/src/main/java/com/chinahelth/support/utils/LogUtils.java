@@ -15,7 +15,7 @@ import java.util.Map;
 public class LogUtils {
 
     private static final boolean IS_DEBUG = HealthConfig.isDebug;
-    private static final String TAG = "EasyMode.LogUtils";
+    public static final String TAG = "ChinaHealth.LogUtils";
 
     public LogUtils() {
     }
