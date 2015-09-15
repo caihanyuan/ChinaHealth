@@ -43,11 +43,6 @@ public class HomepagesAdapter extends FragmentPagerAdapter {
         String title = "";
         Resources resources = HealthApplication.getInstance().getResources();
 
-        title = resources.getString(R.string.homepage_title_main);
-        fragment = HomepageContentFragment.newInstace(HomePageType.HOME);
-        mHomepageTitles.add(title);
-        mHomepageFragments.add(fragment);
-
         title = resources.getString(R.string.homepage_title_food);
         fragment = HomepageContentFragment.newInstace(HomePageType.FOOD);
         mHomepageTitles.add(title);
