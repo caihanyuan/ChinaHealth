@@ -31,7 +31,7 @@ public class HomePageContentAdapter extends BaseAdapter {
 
     private ArticleItemLocalData mLocalData;
 
-    private ArticleItemRemoteData mRemtoeData;
+    private ArticleItemRemoteData mRemoteData;
 
     private LinkedList<ArticleItemBean> mItemsDataList = new LinkedList();
 
@@ -40,7 +40,7 @@ public class HomePageContentAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(mContext);
         mPageType = pageType;
         mLocalData = new ArticleItemLocalData(mPageType);
-        mRemtoeData = new ArticleItemRemoteData(mPageType);
+        mRemoteData = new ArticleItemRemoteData(mPageType);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class HomePageContentAdapter extends BaseAdapter {
         } else {
             itemBean = getLastItemBean();
         }
-        List<ArticleItemBean> articleItemBeans = mRemtoeData.getItemDatas(itemBean, dataStatus);
+        List<ArticleItemBean> articleItemBeans = mRemoteData.getItemDatas(itemBean, dataStatus);
         return articleItemBeans;
     }
 
