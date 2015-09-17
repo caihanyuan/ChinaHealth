@@ -1,4 +1,4 @@
-package com.chinahelth.support.database.table;
+package com.chinahelth.support.datacenter.table;
 
 /**
  * User: qii

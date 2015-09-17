@@ -1,11 +1,11 @@
-package com.chinahelth.support.database;
+package com.chinahelth.support.datacenter;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.chinahelth.HealthApplication;
-import com.chinahelth.support.database.table.ArticleItemTable;
+import com.chinahelth.support.datacenter.table.ArticleItemTable;
 
 /**
  * Created by caihanyuan on 15-8-31.

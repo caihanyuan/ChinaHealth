@@ -9,12 +9,16 @@ import android.widget.BaseAdapter;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ArticleItemType;
 import com.chinahelth.support.bean.ServerParam;
-import com.chinahelth.support.database.ArticleItemLocalData;
-import com.chinahelth.support.remoteserver.ArticleItemRemoteData;
+import com.chinahelth.support.datacenter.ArticleItemLocalDao;
+import com.chinahelth.support.datacenter.ArticleItemRemoteDao;
 import com.chinahelth.support.utils.LogUtils;
 
-import java.util.LinkedList;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by caihanyuan on 15-8-8.
@@ -23,24 +27,31 @@ public class HomePageContentAdapter extends BaseAdapter {
 
     private final static String TAG = HomePageContentAdapter.class.getSimpleName();
 
-    private Context mContext;
+    private WeakReference<Context> mContext;
 
     private int mPageType;
 
     private LayoutInflater mLayoutInflater;
 
-    private ArticleItemLocalData mLocalData;
+    private ArticleItemLocalDao mLocalData;
 
-    private ArticleItemRemoteData mRemoteData;
+    private ArticleItemRemoteDao mRemoteData;
 
-    private LinkedList<ArticleItemBean> mItemsDataList = new LinkedList();
+    private List<ArticleItemBean> mItemsDataList = new ArrayList<>();
+
+    private Map<ArticleItemBean.ItemKey, ArticleItemBean> mItemsDataMap = Collections.synchronizedMap(new TreeMap<ArticleItemBean.ItemKey, ArticleItemBean>());
 
     public HomePageContentAdapter(Context context, int pageType) {
-        mContext = context;
-        mLayoutInflater = LayoutInflater.from(mContext);
+        mContext = new WeakReference<Context>(context);
+        mLayoutInflater = LayoutInflater.from(mContext.get());
         mPageType = pageType;
-        mLocalData = new ArticleItemLocalData(mPageType);
-        mRemoteData = new ArticleItemRemoteData(mPageType);
+        mLocalData = new ArticleItemLocalDao(mPageType);
+        mRemoteData = new ArticleItemRemoteDao(mPageType);
+    }
+
+    public void destory() {
+        mItemsDataList.clear();
+        mItemsDataMap.clear();
     }
 
     @Override
@@ -102,23 +113,22 @@ public class HomePageContentAdapter extends BaseAdapter {
         return mLocalData.hasMoreItemData(lastItemBean);
     }
 
-    void addAll(int position, List<ArticleItemBean> articleItemBeans) {
-        mItemsDataList.addAll(position, articleItemBeans);
-    }
-
     void addAll(List<ArticleItemBean> articleItemBeans) {
-        mItemsDataList.addAll(articleItemBeans);
+        for (ArticleItemBean itemBean : articleItemBeans) {
+            mItemsDataMap.put(itemBean.getKey(), itemBean);
+        }
+        mItemsDataList = new ArrayList<>(mItemsDataMap.values());
     }
 
     private ArticleItemBean getLastItemBean() {
         ArticleItemBean articleItemBean = null;
-        articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.getLast();
+        articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.get(0);
         return articleItemBean;
     }
 
     private ArticleItemBean getFirstItemBean() {
         ArticleItemBean articleItemBean = null;
-        articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.getFirst();
+        articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.get(mItemsDataList.size() - 1);
         return articleItemBean;
     }
 
@@ -127,13 +137,13 @@ public class HomePageContentAdapter extends BaseAdapter {
         switch (articleItemBean.itemType) {
             case ArticleItemType.NORMAL_TEXT:
             case ArticleItemType.NORMAL_VIDEO:
-                item = new HomePageNormalItem(mContext);
+                item = new HomePageNormalItem(mContext.get());
                 break;
             case ArticleItemType.PROMOTION:
-                item = new HomepageBigpicItem(mContext);
+                item = new HomepageBigpicItem(mContext.get());
                 break;
             case ArticleItemType.GALLERY:
-                item = new HomePageGalleryItem(mContext);
+                item = new HomePageGalleryItem(mContext.get());
                 break;
             default:
                 LogUtils.e(TAG, "create item error, item type: " + articleItemBean.itemType + " not found");

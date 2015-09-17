@@ -1,10 +1,10 @@
-package com.chinahelth.support.database;
+package com.chinahelth.support.datacenter;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chinahelth.support.bean.ArticleItemBean;
-import com.chinahelth.support.database.table.ArticleItemTable;
+import com.chinahelth.support.datacenter.table.ArticleItemTable;
 import com.chinahelth.support.utils.LogUtils;
 
 import org.json.JSONArray;
@@ -16,18 +16,18 @@ import java.util.List;
 /**
  * Created by caihanyuan on 15-8-31.
  */
-public class ArticleItemLocalData {
+public class ArticleItemLocalDao {
 
-    private final static String TAG = ArticleItemLocalData.class.getSimpleName();
+    private final static String TAG = ArticleItemLocalDao.class.getSimpleName();
 
     private int mGroupType = 0;
 
     private int mOnceLoadCount = 10;
 
-    public ArticleItemLocalData() {
+    public ArticleItemLocalDao() {
     }
 
-    public ArticleItemLocalData(int groupType) {
+    public ArticleItemLocalDao(int groupType) {
         mGroupType = groupType;
     }
 

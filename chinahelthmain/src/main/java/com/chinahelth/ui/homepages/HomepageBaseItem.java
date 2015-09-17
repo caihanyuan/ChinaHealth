@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,7 +22,7 @@ import java.util.Date;
  */
 public abstract class HomepageBaseItem implements ImageLoadingListener {
 
-    protected Context mContext;
+    protected WeakReference<Context> mContext;
 
     protected View mItemRoot;
 
@@ -36,7 +37,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
     protected ArticleItemBean mHomepageItemData;
 
     public HomepageBaseItem(Context context) {
-        mContext = context;
+        mContext = new WeakReference<Context>(context);
         initView();
     }
 
@@ -67,7 +68,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
             mCommentText.setVisibility(View.GONE);
         } else {
             mCommentText.setVisibility(View.VISIBLE);
-            String comment = nums + mContext.getResources().getString(R.string.health_comment);
+            String comment = nums + mContext.get().getResources().getString(R.string.health_comment);
             setCommentNumText(comment);
         }
     }
@@ -89,7 +90,7 @@ public abstract class HomepageBaseItem implements ImageLoadingListener {
         } else if (pastTime <= TimeUtility.ONE_DAY) {
             simpleDateFormat = new SimpleDateFormat("HH");
             String hour = simpleDateFormat.format(new Date(pastTime));
-            timeText = hour + mContext.getResources().getString(R.string.homepage_item_hour_ago);
+            timeText = hour + mContext.get().getResources().getString(R.string.homepage_item_hour_ago);
             setPublishTimeText(timeText);
         } else {
             simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");

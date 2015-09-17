@@ -85,6 +85,12 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         initData();
     }
 
+    @Override
+    public void onDestroy() {
+        mAdapter.destory();
+        super.onDestroy();
+    }
+
     protected void initView() {
     }
 
@@ -224,11 +230,7 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
             mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
             mRemoteTaskCount.getAndDecrement();
             if (itemBeans != null && itemBeans.size() > 0) {
-                if (mDataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
-                    mAdapter.addAll(0, itemBeans);
-                } else {
-                    mAdapter.addAll(itemBeans);
-                }
+                mAdapter.addAll(itemBeans);
                 mAdapter.notifyDataSetChanged();
             }
         }

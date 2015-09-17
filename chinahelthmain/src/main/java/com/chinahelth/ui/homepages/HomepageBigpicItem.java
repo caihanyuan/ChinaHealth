@@ -23,7 +23,7 @@ public class HomepageBigpicItem extends HomepageBaseItem {
 
     @Override
     void initView() {
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext.get());
         mItemRoot = layoutInflater.inflate(R.layout.homepages_item_bigpic, null, false);
         mTitile = (TextView) mItemRoot.findViewById(R.id.homepage_item_title_text);
         mFromText = (TextView) mItemRoot.findViewById(R.id.homepage_item_from_text);

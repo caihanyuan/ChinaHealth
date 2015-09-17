@@ -1,9 +1,9 @@
-package com.chinahelth.support.remoteserver;
+package com.chinahelth.support.datacenter;
 
 import com.chinahelth.HealthConfig;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ServerParam;
-import com.chinahelth.support.database.table.ArticleItemTable;
+import com.chinahelth.support.datacenter.table.ArticleItemTable;
 import com.chinahelth.support.http.HttpMethod;
 import com.chinahelth.support.http.HttpUtility;
 import com.chinahelth.support.utils.LogUtils;
@@ -20,12 +20,12 @@ import java.util.Map;
 /**
  * Created by caihanyuan on 15-9-14.
  */
-public class ArticleItemRemoteData {
+public class ArticleItemRemoteDao {
 
-    private final static String TAG = ArticleItemRemoteData.class.getSimpleName();
+    private final static String TAG = ArticleItemRemoteDao.class.getSimpleName();
     private int mGroupType = 0;
 
-    public ArticleItemRemoteData(int groupType) {
+    public ArticleItemRemoteDao(int groupType) {
         mGroupType = groupType;
     }
 

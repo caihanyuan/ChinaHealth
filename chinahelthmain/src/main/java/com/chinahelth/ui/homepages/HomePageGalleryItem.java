@@ -30,7 +30,7 @@ public class HomePageGalleryItem extends HomepageBaseItem {
     @Override
     void initView() {
         mImageViews = new ArrayList();
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext.get());
         mItemRoot = layoutInflater.inflate(R.layout.homepages_item_gallery, null, false);
         mTitile = (TextView) mItemRoot.findViewById(R.id.homepage_item_title_text);
         mFromText = (TextView) mItemRoot.findViewById(R.id.homepage_item_from_text);
