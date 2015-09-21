@@ -23,6 +23,8 @@ public class ArticleItemBean {
 
     public boolean isReaded = false;
 
+    private String thumbnailJson = null;
+
     private ItemKey key = null;
 
     public ItemKey getKey() {
@@ -31,6 +33,26 @@ public class ArticleItemBean {
         return key;
     }
 
+    public String getThumbnailJson() {
+        if (thumbnailJson == null) {
+            if (thumbnailUris != null) {
+                int length = thumbnailUris.length;
+                StringBuffer content = new StringBuffer();
+                content.append('[');
+                for (int i = 0; i < length; i++) {
+                    content.append('"');
+                    content.append(thumbnailUris[i]);
+                    content.append('"');
+                    if (i != length - 1) {
+                        content.append(',');
+                    }
+                }
+                content.append(']');
+                thumbnailJson = content.toString();
+            }
+        }
+        return thumbnailJson;
+    }
 
     public static class ItemKey implements Comparable<ItemKey> {
 
@@ -45,6 +67,7 @@ public class ArticleItemBean {
 
         /**
          * Des sort by publishTime
+         *
          * @param another
          * @return
          */
@@ -69,5 +92,4 @@ public class ArticleItemBean {
             }
         }
     }
-
 }

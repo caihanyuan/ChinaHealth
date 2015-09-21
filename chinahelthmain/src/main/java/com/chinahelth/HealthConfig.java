@@ -26,6 +26,8 @@ public class HealthConfig {
 
     private final static int IAMGE_CACHE_SIZE = 50 * 1024 * 1024;
 
+    public final static int ARTICLE_ITEM_ONCE_LOAD_NUM = 10;
+
 //    private final static String SERVER_HOST_DOMAIN = "www.chinahealth.com";
 
     private final static String SERVER_HOST_DOMAIN = "172.16.136.113";

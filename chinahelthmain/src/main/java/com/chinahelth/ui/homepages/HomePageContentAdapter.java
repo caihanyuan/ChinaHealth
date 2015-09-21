@@ -8,9 +8,6 @@ import android.widget.BaseAdapter;
 
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ArticleItemType;
-import com.chinahelth.support.bean.ServerParam;
-import com.chinahelth.support.datacenter.ArticleItemLocalDao;
-import com.chinahelth.support.datacenter.ArticleItemRemoteDao;
 import com.chinahelth.support.utils.LogUtils;
 
 import java.lang.ref.WeakReference;
@@ -33,10 +30,6 @@ public class HomePageContentAdapter extends BaseAdapter {
 
     private LayoutInflater mLayoutInflater;
 
-    private ArticleItemLocalDao mLocalData;
-
-    private ArticleItemRemoteDao mRemoteData;
-
     private List<ArticleItemBean> mItemsDataList = new ArrayList<>();
 
     private Map<ArticleItemBean.ItemKey, ArticleItemBean> mItemsDataMap = Collections.synchronizedMap(new TreeMap<ArticleItemBean.ItemKey, ArticleItemBean>());
@@ -45,8 +38,6 @@ public class HomePageContentAdapter extends BaseAdapter {
         mContext = new WeakReference<Context>(context);
         mLayoutInflater = LayoutInflater.from(mContext.get());
         mPageType = pageType;
-        mLocalData = new ArticleItemLocalDao(mPageType);
-        mRemoteData = new ArticleItemRemoteDao(mPageType);
     }
 
     public void destory() {
@@ -91,42 +82,22 @@ public class HomePageContentAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public List<ArticleItemBean> getLocalData() {
-        ArticleItemBean lastItemBean = getLastItemBean();
-        List<ArticleItemBean> articleItemBeans = mLocalData.getItemDatas(lastItemBean);
-        return articleItemBeans;
-    }
-
-    public List<ArticleItemBean> getRemoteData(String dataStatus) {
-        ArticleItemBean itemBean = null;
-        if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
-            itemBean = getFirstItemBean();
-        } else {
-            itemBean = getLastItemBean();
-        }
-        List<ArticleItemBean> articleItemBeans = mRemoteData.getItemDatas(itemBean, dataStatus);
-        return articleItemBeans;
-    }
-
-    public boolean hasMoreLocalData() {
-        ArticleItemBean lastItemBean = getLastItemBean();
-        return mLocalData.hasMoreItemData(lastItemBean);
-    }
-
     void addAll(List<ArticleItemBean> articleItemBeans) {
         for (ArticleItemBean itemBean : articleItemBeans) {
             mItemsDataMap.put(itemBean.getKey(), itemBean);
         }
-        mItemsDataList = new ArrayList<>(mItemsDataMap.values());
+        synchronized (mItemsDataList) {
+            mItemsDataList = new ArrayList<>(mItemsDataMap.values());
+        }
     }
 
-    private ArticleItemBean getLastItemBean() {
+    public synchronized ArticleItemBean getFirstItemBean() {
         ArticleItemBean articleItemBean = null;
         articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.get(0);
         return articleItemBean;
     }
 
-    private ArticleItemBean getFirstItemBean() {
+    public synchronized ArticleItemBean getLastItemBean() {
         ArticleItemBean articleItemBean = null;
         articleItemBean = mItemsDataList.size() == 0 ? articleItemBean : mItemsDataList.get(mItemsDataList.size() - 1);
         return articleItemBean;

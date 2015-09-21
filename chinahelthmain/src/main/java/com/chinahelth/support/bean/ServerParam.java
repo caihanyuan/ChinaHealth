@@ -11,6 +11,8 @@ public class ServerParam {
 
     public final static String DATA_STATUS = "dataStatus";
 
+    public final static String ONCE_LOAD_NUM = "onceLoadNum";
+
     public static class VALUES {
         public final static String DATA_STATUS_NEWER = "newer";
         public final static String DATA_STATUS_OLDER = "older";

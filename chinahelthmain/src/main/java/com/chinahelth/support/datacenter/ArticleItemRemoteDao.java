@@ -23,18 +23,15 @@ import java.util.Map;
 public class ArticleItemRemoteDao {
 
     private final static String TAG = ArticleItemRemoteDao.class.getSimpleName();
-    private int mGroupType = 0;
 
-    public ArticleItemRemoteDao(int groupType) {
-        mGroupType = groupType;
-    }
 
-    public List<ArticleItemBean> getItemDatas(ArticleItemBean itemBean, String dataStutus) {
+    List<ArticleItemBean> getItemDatas(ArticleItemBean itemBean, int groupType, int onceLoadNum, String dataStatus) {
         Map<String, String> params = new HashMap();
-        params.put(ServerParam.DATA_STATUS, dataStutus);
+        params.put(ServerParam.DATA_STATUS, dataStatus);
+        params.put(ServerParam.ONCE_LOAD_NUM, String.valueOf(onceLoadNum));
         JSONObject paramJson = new JSONObject();
         try {
-            paramJson.put(ArticleItemTable.GROUP_TYPE, mGroupType);
+            paramJson.put(ArticleItemTable.GROUP_TYPE, groupType);
             if (itemBean != null) {
                 paramJson.put(ArticleItemTable.UID, itemBean.articleId);
                 paramJson.put(ArticleItemTable.PUBLISH_TIME, itemBean.publishTime);

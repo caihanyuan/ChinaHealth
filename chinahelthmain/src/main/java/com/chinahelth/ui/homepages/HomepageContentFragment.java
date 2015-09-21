@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
+import com.chinahelth.HealthConfig;
 import com.chinahelth.R;
 import com.chinahelth.support.bean.ArticleItemBean;
 import com.chinahelth.support.bean.ServerParam;
+import com.chinahelth.support.datacenter.ArticleItemDataCenter;
 import com.chinahelth.support.lib.MyAsyncTask;
 import com.chinahelth.support.utils.LogUtils;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -21,16 +23,14 @@ import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * Created by caihanyuan on 15-8-22.
  */
-public class HomepageContentFragment extends Fragment implements PullToRefreshBase.OnRefreshListener, PullToRefreshBase.OnLastItemVisibleListener {
+public class HomepageContentFragment extends Fragment implements PullToRefreshBase.OnRefreshListener2 {
 
     private final static String TAG = HomepageContentFragment.class.getSimpleName();
 
-    public int mPageType = -1;
+    public int mPageType = 0;
 
     protected View mViewRoot;
 
@@ -63,8 +63,8 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         LogUtils.d(TAG, "view " + mPageType + " onCreateView");
         mViewRoot = inflater.inflate(R.layout.homepages_fragment_layout, container, false);
         mRefreshListView = (PullToRefreshListView) mViewRoot.findViewById(R.id.homepage_refreshview);
+        mRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
         mRefreshListView.setOnRefreshListener(this);
-        mRefreshListView.setOnLastItemVisibleListener(this);
         mRefreshListView.setAdapter(mAdapter);
         setPauseScrollListener(null);
         return mViewRoot;
@@ -97,42 +97,30 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
     protected void initData() {
         if (!mDataInit) {
             LogUtils.d(TAG, "view " + mPageType + " initData");
-            //execute remote data access task
-            if (!isRemoteAccessTaskBusy()) {
-                mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-                mRefreshListView.setRefreshing(false);
-            }
-            if (!isLocalAccessTaskBusy()) {
-                executeLocalDataReadTask();
-            }
+            mRefreshListView.setRefreshing(false);
             mDataInit = true;
         }
     }
 
     @Override
-    public void onRefresh(PullToRefreshBase refreshView) {
+    public void onPullUpToRefresh(PullToRefreshBase refreshView) {
+        LogUtils.d(TAG, "onPullUpToRefresh");
         if (!isRemoteAccessTaskBusy()) {
-            if (mRefreshListView.getMode() == PullToRefreshBase.Mode.PULL_FROM_START)
-                executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_NEWER);
-            else if (mRefreshListView.getMode() == PullToRefreshBase.Mode.PULL_FROM_END)
-                executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_OLDER);
+            executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_OLDER);
+        }
+        if (!isLocalAccessTaskBusy()) {
+            executeLocalDataReadTask(ServerParam.VALUES.DATA_STATUS_OLDER);
         }
     }
 
     @Override
-    public void onLastItemVisible() {
-        if (mAdapter.hasMoreLocalData()) {
-            if (!isLocalAccessTaskBusy()) {
-                LogUtils.d(TAG, "get older data from database, when scroll to last item");
-                executeLocalDataReadTask();
-            }
-        } else {
-            //load data from remote server
-            if (!isRemoteAccessTaskBusy()) {
-                LogUtils.d(TAG, "get older data from remote server, when scroll to last item");
-                mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-                mRefreshListView.setRefreshing();
-            }
+    public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+        LogUtils.d(TAG, "onPullDownToRefresh");
+        if (!isRemoteAccessTaskBusy()) {
+            executeRemoteDataReadTask(ServerParam.VALUES.DATA_STATUS_NEWER);
+        }
+        if (!isLocalAccessTaskBusy()) {
+            executeLocalDataReadTask(ServerParam.VALUES.DATA_STATUS_NEWER);
         }
     }
 
@@ -159,18 +147,12 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         return taskCount != 0;
     }
 
-    private void executeLocalDataReadTask() {
+    private void executeLocalDataReadTask(String dataStatus) {
         mLocalTaskCount.getAndIncrement();
-        new LocalDataReadTask().executeOnDatabase();
+        new LocalDataReadTask().executeOnDatabase(dataStatus);
     }
 
     private void executeRemoteDataReadTask(String dataStatus) {
-        if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
-            mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        } else {
-            mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-        }
-        mRefreshListView.setRefreshing();
         mRemoteTaskCount.getAndIncrement();
         new RemoteDataReadTask().executeOnIO(dataStatus);
     }
@@ -181,14 +163,21 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
      * <br>params:ArticleItemBean  the last item bean show on view
      * <br>result:List<ArticleItemBean> items' data from database
      */
-    private class LocalDataReadTask extends MyAsyncTask<Void, Void, List<ArticleItemBean>> {
+    private class LocalDataReadTask extends MyAsyncTask<String, Void, List<ArticleItemBean>> {
         @Override
         protected void onPreExecute() {
         }
 
         @Override
-        protected List<ArticleItemBean> doInBackground(Void... params) {
-            return mAdapter.getLocalData();
+        protected List<ArticleItemBean> doInBackground(String... params) {
+            String dataStatus = params[0];
+            ArticleItemBean articleItemBean = null;
+            if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
+                articleItemBean = mAdapter.getFirstItemBean();
+            } else {
+                articleItemBean = mAdapter.getLastItemBean();
+            }
+            return ArticleItemDataCenter.getInstance().getLocalItemDatas(articleItemBean, mPageType, HealthConfig.ARTICLE_ITEM_ONCE_LOAD_NUM, dataStatus);
         }
 
         @Override
@@ -201,12 +190,23 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         }
     }
 
+    private class LocalDataWriteTask extends MyAsyncTask<List<ArticleItemBean>, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(List<ArticleItemBean>... params) {
+            List<ArticleItemBean> syncDatas = params[0];
+            boolean success = true;
+            if (syncDatas != null) {
+                success = ArticleItemDataCenter.getInstance().saveOrUpdateDatas(syncDatas);
+            }
+            LogUtils.d(TAG, "save remote data in database: " + success);
+            return success;
+        }
+    }
+
     /**
      * load data from remote server
      */
     private class RemoteDataReadTask extends MyAsyncTask<String, Void, List<ArticleItemBean>> {
-
-        private String mDataStatus = ServerParam.VALUES.DATA_STATUS_NEWER;
 
         @Override
         protected void onPreExecute() {
@@ -215,23 +215,26 @@ public class HomepageContentFragment extends Fragment implements PullToRefreshBa
         @Override
         protected List<ArticleItemBean> doInBackground(String... params) {
             String dataStatus = params[0];
-            if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER) || dataStatus.equals(ServerParam.VALUES.DATA_STATUS_OLDER)) {
-                mDataStatus = dataStatus;
-                return mAdapter.getRemoteData(dataStatus);
+            ArticleItemBean articleItemBean = null;
+            if (dataStatus.equals(ServerParam.VALUES.DATA_STATUS_NEWER)) {
+                articleItemBean = mAdapter.getFirstItemBean();
+                if (articleItemBean == null) {
+                    articleItemBean = ArticleItemDataCenter.getInstance().getNewestLocalItemData(mPageType);
+                }
             } else {
-                cancel(true);
-                return null;
+                articleItemBean = mAdapter.getLastItemBean();
             }
+            return ArticleItemDataCenter.getInstance().getRemoteItemDatas(articleItemBean, mPageType, HealthConfig.ARTICLE_ITEM_ONCE_LOAD_NUM, dataStatus);
         }
 
         @Override
         protected void onPostExecute(List<ArticleItemBean> itemBeans) {
             mRefreshListView.onRefreshComplete();
-            mRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
             mRemoteTaskCount.getAndDecrement();
             if (itemBeans != null && itemBeans.size() > 0) {
                 mAdapter.addAll(itemBeans);
                 mAdapter.notifyDataSetChanged();
+                new LocalDataWriteTask().executeOnDatabase(itemBeans);
             }
         }
     }
