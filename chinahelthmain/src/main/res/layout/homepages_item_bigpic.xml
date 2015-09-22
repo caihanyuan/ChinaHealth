@@ -12,12 +12,12 @@
 
     <ImageView
         android:id="@+id/homepage_bigpicitem_imageview"
-        android:layout_width="@dimen/home_page_bigpicitem_img_width"
-        android:layout_height="@dimen/home_page_bigpicitem_img_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/homepage_item_title_text"
         android:layout_marginTop="@dimen/home_page_bigpicitem_img_margin_top"
-        android:background="@color/gray"
-        android:scaleType="fitXY" />
+        android:adjustViewBounds="true"
+        android:background="@color/gray"/>
 
     <LinearLayout
         android:id="@id/homepage_item_extrainfo_container"

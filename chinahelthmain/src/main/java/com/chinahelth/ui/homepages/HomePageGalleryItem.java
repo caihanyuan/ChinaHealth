@@ -59,7 +59,7 @@ public class HomePageGalleryItem extends HomepageBaseItem {
                     imageView.setVisibility(View.VISIBLE);
                     ImageLoader.getInstance().displayImage(url, imageView, HealthConfig.getDefaultDisplayImageOptions(), this);
                 } else {
-                    imageView.setVisibility(View.GONE);
+                    imageView.setVisibility(View.INVISIBLE);
                 }
             }
         }

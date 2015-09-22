@@ -5,11 +5,33 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
 
+    <FrameLayout
+        android:id="@+id/homepage_normalitem_imageContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:id="@+id/homepage_normalitem_imageview"
+            android:layout_width="@dimen/home_page_normalitem_img_width"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@color/gray" />
+
+        <ImageView
+            android:id="@+id/homepage_normalitem_videoplay_img"
+            android:layout_width="@dimen/home_page_normalitem_videoplay_size"
+            android:layout_height="@dimen/home_page_normalitem_videoplay_size"
+            android:layout_gravity="center"
+            android:src="@drawable/homepage_item_video_play" />
+    </FrameLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/homepage_normalitem_imageContainer">
 
         <TextView
             android:id="@id/homepage_item_title_text"
@@ -46,26 +68,4 @@
                 android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left" />
         </LinearLayout>
     </RelativeLayout>
-
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
-
-        <ImageView
-            android:id="@+id/homepage_normalitem_imageview"
-            android:layout_width="@dimen/home_page_normalitem_img_width"
-            android:layout_height="@dimen/home_page_normalitem_img_height"
-            android:background="@color/gray"
-            android:scaleType="fitXY" />
-
-        <ImageView
-            android:id="@+id/homepage_normalitem_videoplay_img"
-            android:layout_width="@dimen/home_page_normalitem_videoplay_size"
-            android:layout_height="@dimen/home_page_normalitem_videoplay_size"
-            android:layout_gravity="center"
-            android:src="@drawable/homepage_item_video_play" />
-    </FrameLayout>
-
 </RelativeLayout>
