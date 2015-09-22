@@ -43,9 +43,9 @@ public class HealthConfig {
             displayImageOptions = new DisplayImageOptions.Builder()
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
-                    .showImageOnLoading(R.drawable.homepage_item_normal_default)
-                    .showImageOnFail(R.drawable.homepage_item_normal_default)
-                    .showImageForEmptyUri(R.drawable.homepage_item_normal_default)
+                    .showImageOnLoading(R.drawable.homepage_item_img_default)
+                    .showImageOnFail(R.drawable.homepage_item_img_default)
+                    .showImageForEmptyUri(R.drawable.homepage_item_img_default)
                     .considerExifParams(true)
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .build();

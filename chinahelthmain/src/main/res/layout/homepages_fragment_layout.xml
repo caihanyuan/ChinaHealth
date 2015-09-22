@@ -5,5 +5,6 @@
     android:id="@id/homepage_refreshview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@android:drawable/divider_horizontal_dim_dark"
+    android:divider="@drawable/homepage_item_divider"
+    android:showDividers="middle"
     ptr:ptrMode="pullFromStart" />

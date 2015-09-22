@@ -7,7 +7,7 @@
         android:id="@+id/homepush_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray" />
+        android:background="@color/img_gray" />
 
     <com.chinahelth.ui.homepush.HomePushViewCircleIndicator
         android:id="@+id/homepush_indicator"

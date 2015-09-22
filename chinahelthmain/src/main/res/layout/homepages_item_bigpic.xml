@@ -17,7 +17,7 @@
         android:layout_below="@id/homepage_item_title_text"
         android:layout_marginTop="@dimen/home_page_bigpicitem_img_margin_top"
         android:adjustViewBounds="true"
-        android:background="@color/gray"/>
+        android:background="@color/img_gray"/>
 
     <LinearLayout
         android:id="@id/homepage_item_extrainfo_container"
@@ -29,20 +29,20 @@
 
         <TextView
             android:id="@id/homepage_item_from_text"
-            style="@style/Theme.ChinaHealth.TextApperance"
+            style="@style/Theme.ChinaHealth.TextApperance.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@id/homepage_item_comment_text"
-            style="@style/Theme.ChinaHealth.TextApperance"
+            style="@style/Theme.ChinaHealth.TextApperance.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left" />
 
         <TextView
             android:id="@id/homepage_item_time_text"
-            style="@style/Theme.ChinaHealth.TextApperance"
+            style="@style/Theme.ChinaHealth.TextApperance.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_page_normalitem_undertext_margin_left" />

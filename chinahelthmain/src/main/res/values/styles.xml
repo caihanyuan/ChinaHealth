@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="Theme.ChinaHealth" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/little_gray</item>
+        <item name="android:windowBackground">@color/whole_white</item>
         <item name="vpiTabPageIndicatorStyle">@style/Theme.ChinaHealth.TabPageIndicator</item>
     </style>
 
@@ -37,11 +37,15 @@
         <item name="android:paddingRight">@dimen/home_page_margin_right</item>
     </style>
 
-    <style name="Theme.ChinaHealth.TextApperance" parent="android:TextAppearance.Small">
-        <item name="android:textSize">16dp</item>
+    <style name="Theme.ChinaHealth.TextApperance" parent="android:TextAppearance">
+    </style>
+
+    <style name="Theme.ChinaHealth.TextApperance.Small" parent="Theme.ChinaHealth.TextApperance">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/text_readed_gray</item>
     </style>
 
     <style name="Theme.ChinaHealth.TextApperance.Title" parent="Theme.ChinaHealth.TextApperance">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">17.5dp</item>
     </style>
 </resources>
