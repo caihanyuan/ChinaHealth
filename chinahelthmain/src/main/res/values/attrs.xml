@@ -7,6 +7,10 @@
         <attr name="layoutRes" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="CustomImageView">
+        <attr name="weightPercent" format="reference" />
+    </declare-styleable>
+
     <!-- id define -->
     <item name="slidingmenu_item_img" type="id" />
     <item name="slidingmenu_item_name" type="id" />

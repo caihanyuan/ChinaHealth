@@ -16,8 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/homepage_item_title_text"
         android:layout_marginTop="@dimen/home_page_bigpicitem_img_margin_top"
-        android:adjustViewBounds="true"
-        android:background="@color/img_gray"/>
+        android:adjustViewBounds="true"/>
 
     <LinearLayout
         android:id="@id/homepage_item_extrainfo_container"

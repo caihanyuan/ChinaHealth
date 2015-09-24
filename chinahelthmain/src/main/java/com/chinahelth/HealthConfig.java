@@ -30,7 +30,7 @@ public class HealthConfig {
 
 //    private final static String SERVER_HOST_DOMAIN = "www.chinahealth.com";
 
-    private final static String SERVER_HOST_DOMAIN = "172.16.136.113";
+    private final static String SERVER_HOST_DOMAIN = "192.168.1.101";
 
     private final static int SERVER_HOST_PROT = 8080;
 
