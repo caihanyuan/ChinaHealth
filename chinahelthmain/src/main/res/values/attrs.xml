@@ -9,6 +9,7 @@
 
     <declare-styleable name="CustomImageView">
         <attr name="weightPercent" format="reference" />
+        <attr name="heightPercent" format="reference" />
     </declare-styleable>
 
     <!-- id define -->

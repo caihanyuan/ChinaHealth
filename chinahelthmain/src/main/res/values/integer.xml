@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- home push view-->
+    <!-- home push view -->
     <integer name="home_push_view_cache_size">4</integer>
+
+    <!-- custom image view -->
+    <integer name="bigitem_imageview_width_percent">100</integer>
 </resources>

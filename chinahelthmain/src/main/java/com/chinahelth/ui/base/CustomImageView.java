@@ -14,31 +14,52 @@ import com.chinahelth.R;
  */
 public class CustomImageView extends ImageView {
 
-    private int mWidthPercent = 100;
+    private final static String TAG = CustomImageView.class.getSimpleName();
+
+    private int mMaxWidth = Integer.MAX_VALUE;
+
+    private int mMaxHeight = Integer.MAX_VALUE;
+
+    private int mWidthPercent = -1;
+
+    private int mHeightPercent = -1;
 
     public CustomImageView(Context context) {
         super(context);
     }
 
     public CustomImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public CustomImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.CustomImageView, defStyleAttr, 0);
-        mWidthPercent = a.getInteger(R.styleable.CustomImageView_weightPercent, 100);
+        mWidthPercent = a.getInteger(R.styleable.CustomImageView_weightPercent, -1);
+        mHeightPercent = a.getInteger(R.styleable.CustomImageView_heightPercent, -1);
         a.recycle();
     }
 
     @Override
+    public void setMaxWidth(int maxWidth) {
+        mMaxWidth = maxWidth;
+        super.setMaxWidth(maxWidth);
+    }
+
+    @Override
+    public void setMaxHeight(int maxHeight) {
+        mMaxHeight = maxHeight;
+        super.setMaxHeight(maxHeight);
+    }
+
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int w = 0;
         int h = 0;
-        float desiredAspect = 0.0f;
         Drawable drawable = getDrawable();
+
+        float desiredAspect = 0.0f;
 
         if (drawable == null) {
             // If no drawable, its intrinsic size is 0.
@@ -57,11 +78,60 @@ public class CustomImageView extends ImageView {
         int ptop = getPaddingTop();
         int pbottom = getPaddingBottom();
 
+        int widthSize;
+        int heightSize;
+        int desiredWidth;
+        int desiredHeight;
 
+        if (mWidthPercent != -1) {
+            int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+            desiredWidth = parentWidth * mWidthPercent / 100 + pleft + pright;
+        } else {
+            desiredWidth = w + pleft + pright;
+        }
+        if (mHeightPercent != -1) {
+            int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+            desiredHeight = parentHeight * mHeightPercent / 100 + ptop + pbottom;
+        } else {
+            desiredHeight = h + ptop + pbottom;
+        }
+
+        // Get the max possible width given our constraints
+        widthSize = resolveAdjustedSize(desiredWidth, mMaxWidth, widthMeasureSpec, mWidthPercent);
+
+        // Get the max possible height given our constraints
+        heightSize = resolveAdjustedSize(desiredHeight, mMaxHeight, heightMeasureSpec, mHeightPercent);
+
+        if (desiredAspect != 0.0f) {
+            // See what our actual aspect ratio is
+            float actualAspect = (float) (widthSize - pleft - pright) /
+                    (heightSize - ptop - pbottom);
+
+            if (Math.abs(actualAspect - desiredAspect) > 0.0000001) {
+                // Try adjusting height to be proportional to width
+                int newHeight = (int) ((widthSize - pleft - pright) / desiredAspect) +
+                        ptop + pbottom;
+                heightSize = newHeight <= mMaxHeight ? newHeight : heightSize;
+            }
+        } else {
+            /* We are either don't want to preserve the drawables aspect ratio,
+               or we are not allowed to change view dimensions. Just measure in
+               the normal way.
+            */
+            w += pleft + pright;
+            h += ptop + pbottom;
+
+            w = Math.max(w, getSuggestedMinimumWidth());
+            h = Math.max(h, getSuggestedMinimumHeight());
+
+            widthSize = resolveSizeAndState(w, widthMeasureSpec, 0);
+            heightSize = resolveSizeAndState(h, heightMeasureSpec, 0);
+        }
+        setMeasuredDimension(widthSize, heightSize);
     }
 
     private int resolveAdjustedSize(int desiredSize, int maxSize,
-                                    int measureSpec) {
+                                    int measureSpec, int percentValue) {
         int result = desiredSize;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -80,7 +150,11 @@ public class CustomImageView extends ImageView {
                 break;
             case MeasureSpec.EXACTLY:
                 // No choice. Do what we are told.
-                result = specSize;
+                if (percentValue != -1) {
+                    result = Math.min(desiredSize, specSize);
+                } else {
+                    result = specSize;
+                }
                 break;
         }
         return result;

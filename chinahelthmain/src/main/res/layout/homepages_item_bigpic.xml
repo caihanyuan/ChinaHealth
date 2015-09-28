@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     style="@style/Theme.ChinaHealth.HompageItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -10,13 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ImageView
+    <com.chinahelth.ui.base.CustomImageView
         android:id="@+id/homepage_bigpicitem_imageview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/homepage_item_title_text"
         android:layout_marginTop="@dimen/home_page_bigpicitem_img_margin_top"
-        android:adjustViewBounds="true"/>
+        custom:weightPercent="@integer/bigitem_imageview_width_percent" />
 
     <LinearLayout
         android:id="@id/homepage_item_extrainfo_container"
